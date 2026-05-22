@@ -37,6 +37,12 @@ public final class GameConstants {
     // Khang la
     // TODO: thêm hằng số cho Monster (HP, speed, spawn interval)
     // TODO: thêm hằng số cho Bullet (speed, cooldown)
+    public static final int MONSTER_HP = 1;
+    public static final int MONSTER_SPEED = 7;
+    public static final int MONSTER_SPAWN_INTERVAL = 1200;
+
+    public static final int BULLET_SPEED        = 12;
+    public static final int BULLET_COOLDOWN = 500;
 
     private GameConstants() {}
 }

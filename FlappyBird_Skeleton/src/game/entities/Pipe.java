@@ -30,41 +30,55 @@ public class Pipe implements Updatable, Renderable, Collidable {
     }
 
     private BufferedImage flipVertically(BufferedImage src) {
-        // TODO: tạo BufferedImage mới, vẽ ngược chiều dọc bằng drawImage
-        return src;
+        int w =  src.getWidth();
+        int h =  src.getHeight();
+        BufferedImage flipped = new BufferedImage(w, h, src.getType());
+        Graphics2D g2d = flipped.createGraphics();
+        g2d.drawImage(src, 0, 0, w, h, null);
+        g2d.dispose();
+        return flipped;
     }
 
     @Override
     public void update() {
-        // TODO: gọi update(1.0f)
+        update (1.0f);
     }
 
     /** PipeManager truyền speedMultiplier xuống mỗi tick (dash sẽ làm nhanh/chậm). */
     public void update(float speedMultiplier) {
-        // TODO: xf -= PIPE_SPEED * speedMultiplier
+         xf -= GameConstants.PIPE_SPEED * speedMultiplier;
     }
 
     @Override
     public void render(Graphics2D g) {
-        // TODO:
-        // - Nếu isTop → vẽ flippedImage tại (x - w/2, y - h)
-        // - Ngược lại → vẽ image tại (x - w/2, y)
+        int  w = image.getWidth();
+        int h = image.getHeight();
+        int drawX = (int) xf - w/2;
+        if (isTop) {
+            g.drawImage(flippedImage, drawX, y-h, null);
+        } else {
+            g.drawImage(image, drawX, y, null);
+        }
     }
 
     @Override
     public Rectangle getBounds() {
-        // TODO: tính rect bao quanh tuỳ isTop
-        return new Rectangle();
+        int w = image.getWidth();
+        int h = image.getHeight();
+        int drawX = (int) xf - w / 2;
+        if (isTop) {
+            return new Rectangle(drawX, y - h, w, h);
+        } else {
+            return new Rectangle();
+        }
     }
-
     @Override
     public boolean collidesWith(Collidable other) {
         return getBounds().intersects(other.getBounds());
     }
 
     public boolean isOffScreen() {
-        // TODO: xf < -image.getWidth()
-        return false;
+        return xf < -image.getWidth();
     }
 
     public int getX() { return (int) xf; }

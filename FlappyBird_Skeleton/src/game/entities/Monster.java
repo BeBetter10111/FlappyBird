@@ -36,18 +36,29 @@ public class Monster implements Updatable, Renderable, Collidable {
     @Override
     public void update() {
         // TODO: x -= MONSTER_SPEED (thêm vào GameConstants)
-        // TODO (option): di chuyển y theo sin để quái lượn sóng
+        //Monter di chuyển theo trục x
+        x -= 2; 
     }
 
     @Override
     public void render(Graphics2D g) {
         // TODO: nếu alive → vẽ sprite tại (x, y)
+        if (alive) {
+            g.drawImage(sprite, x, y, null);
+        } else {
+            // TODO (option): vẽ hiệu ứng chết (ví dụ: sprite nổ) thay vì xóa hẳn
+            g.setColor(java.awt.Color.RED);
+            g.fillRect(x, y, sprite.getWidth(), sprite.getHeight());
+        }
     }
 
     @Override
     public Rectangle getBounds() {
         // TODO: rect bao quanh sprite
-        return new Rectangle();
+        if (alive) {
+            return new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
+        }
+        return new Rectangle(0, 0, 0, 0); 
     }
 
     @Override
@@ -57,11 +68,18 @@ public class Monster implements Updatable, Renderable, Collidable {
 
     public void takeDamage(int dmg) {
         // TODO: hp -= dmg; nếu hp <= 0 → alive = false
+        hp -= dmg;
+        if (hp <= 0) {
+            alive = false;
+        }
     }
 
     public boolean isAlive()     { return alive; }
     public boolean isOffScreen() {
         // TODO: x < -sprite.getWidth()
+        if (x < -sprite.getWidth()) {
+            return true;
+        }
         return false;
     }
 

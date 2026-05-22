@@ -36,6 +36,10 @@ public class BulletManager implements Updatable, Renderable, Resettable {
         // TODO:
         // 1) Update từng bullet
         // 2) Xoá bullet nào !isActive() hoặc isOffScreen()
+        for (Bullet bullet : bullets) {
+            bullet.update();
+        }
+        bullets.removeIf(bullet -> !bullet.isActive() || bullet.isOffScreen());
     }
 
     /** Check collision với danh sách monster, gây damage và deactivate bullet. */
@@ -46,15 +50,30 @@ public class BulletManager implements Updatable, Renderable, Resettable {
         //     monster.takeDamage(1)
         //     bullet.deactivate()
         //     break (bullet chỉ trúng 1 monster)
+        for (Bullet bullet : bullets) {
+            if (bullet.isActive()) {
+                for (Monster monster : monsters) {
+                    if (monster.isAlive() && bullet.collidesWith(monster)) {
+                        monster.takeDamage(1);
+                        bullet.deactivate();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void render(Graphics2D g) {
         // TODO
+        for (Bullet bullet : bullets) {
+            bullet.render(g);
+        }
     }
 
     @Override
     public void reset() {
         // TODO: clear list
+        bullets.clear();
     }
 }

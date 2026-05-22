@@ -19,21 +19,21 @@ public class Floor implements Updatable, Renderable {
     private int xPosition;
 
     public Floor(AssetLoader loader) {
-        // TODO: load image từ AssetPaths.FLOOR (scale 2)
-        this.image = null;
+        this.image = loader.loadScaledImage(AssetPaths.FLOOR, 2);
         this.xPosition = 0;
     }
 
     @Override
     public void update() {
-        // TODO: xPosition -= 1
-        // TODO: nếu xPosition <= -FLOOR_WIDTH → xPosition = 0
+        xPosition -= 1;
+        if (xPosition <= -GameConstants.FLOOR_WIDTH) {
+            xPosition = 0;
+        }
     }
 
     @Override
     public void render(Graphics2D g) {
-        // TODO: vẽ image tại 2 vị trí:
-        // (xPosition, FLOOR_Y)
-        // (xPosition + FLOOR_WIDTH, FLOOR_Y)
+        g.drawImage(image, xPosition, GameConstants.FLOOR_Y, null);
+        g.drawImage(image, xPosition + GameConstants.FLOOR_WIDTH, GameConstants.FLOOR_Y, null);
     }
 }
