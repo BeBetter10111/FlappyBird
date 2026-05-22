@@ -17,7 +17,15 @@ public class CollisionDetector {
     public boolean hasCollision(Bird bird, List<Pipe> pipes) {
         // TODO:
         // 1) Nếu bird.isOutOfBounds() → return true
+        if (bird.isOutOfBounds()) {
+            return true;
+        }
         // 2) Loop pipes, nếu bird.collidesWith(pipe) → return true
+        for (Pipe pipe : pipes) {
+            if (bird.collidesWith(pipe)) {
+                return true;
+            }
+        }
         // 3) return false
         return false;
     }

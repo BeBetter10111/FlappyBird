@@ -79,6 +79,8 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
     @Override
     public void onDashCollected() {
         // TODO: bird.activateDash() + soundPlayer.playSwoosh()
+        bird.activateDash();
+        soundPlayer.playSwoosh();
     }
 
     private void handleKeyPress(int keyCode) {
@@ -86,6 +88,7 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         // Nếu phím SPACE:
         //   - Đang MAIN_GAME → bird.flap() + soundPlayer.playFlap()
         //   - Đang GAME_OVER → startNewGame()
+
     }
 
     private void startNewGame() {
@@ -132,6 +135,7 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         // 6) scoreManager.increment(), countdown để phát sound point
         // 7) Check collision: nếu !bird.isInvincible() & có va chạm pipe → game over
         //    Nếu invincible nhưng out of bounds → vẫn game over
+        
     }
 
     private void render() {
