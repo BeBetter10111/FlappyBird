@@ -36,12 +36,8 @@ public class Monster implements Updatable, Renderable, Collidable {
     @Override
     public void update() {
         // TODO: x -= MONSTER_SPEED (thêm vào GameConstants)
-        // TODO (option): di chuyển y theo sin để quái lượn sóng
+        //Monter di chuyển theo trục x
         x -= 2; 
-        y += Math.sin(x * 0.1) * 2; 
-
-
-
     }
 
     @Override

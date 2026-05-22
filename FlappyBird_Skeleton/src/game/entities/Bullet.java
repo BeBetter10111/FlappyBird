@@ -38,17 +38,21 @@ public class Bullet implements Updatable, Renderable, Collidable {
     /** Logic di chuyển — tách method để dễ override sau này. */
     public void move() {
         // TODO: x += BULLET_SPEED (thêm vào GameConstants)
+        x += 5;
     }
 
     @Override
     public void render(Graphics2D g) {
         // TODO: nếu active → vẽ sprite
+        if (active) {
+            g.drawImage(sprite, x, y, null);
+        }
     }
 
     @Override
     public Rectangle getBounds() {
         // TODO
-        return new Rectangle();
+        return new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
     }
 
     @Override
@@ -60,6 +64,9 @@ public class Bullet implements Updatable, Renderable, Collidable {
     public boolean isActive() { return active; }
     public boolean isOffScreen() {
         // TODO: x > SCREEN_WIDTH
+        if (x > 800) {
+            return true;
+        }
         return false;
     }
 }
