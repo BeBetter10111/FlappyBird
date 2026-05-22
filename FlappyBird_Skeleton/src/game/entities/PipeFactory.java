@@ -19,20 +19,21 @@ public class PipeFactory {
     private int lastGapCenterY = 0;
 
     public PipeFactory(AssetLoader loader) {
-        // TODO: load image từ AssetPaths.PIPE (scale 2)
-        this.pipeImage = null;
+        this.pipeImage = loader.loadImage(AssetPaths.PIPE);
     }
 
     public List<Pipe> createPipePair() {
-        // TODO:
-        // 1) gapTopY = random trong khoảng [PIPE_MIN_GAP_Y, PIPE_MAX_GAP_Y]
-        // 2) bottomPipeY = gapTopY + PIPE_GAP
-        // 3) lastGapCenterY = gapTopY + PIPE_GAP / 2
-        // 4) Return List chứa 2 Pipe:
-        //    - new Pipe(pipeImage, PIPE_SPAWN_X, gapTopY, true)
-        //    - new Pipe(pipeImage, PIPE_SPAWN_X, bottomPipeY, false)
-        return null;
+        int range = GameConstants.PIPE_MAX_GAP_Y - GameConstants.PIPE_MIN_GAP_Y;
+        int gapTopY = GameConstants.PIPE_MIN_GAP_Y + random.nextInt(range+1);
+        int gapBottomY = gapTopY + GameConstants.PIPE_GAP;
+        lastGapCenterY = gapTopY +  GameConstants.PIPE_GAP/2;
+
+        return List.of(
+                new Pipe(pipeImage, GameConstants.PIPE_SPAWN_X, gapTopY, true),
+                new Pipe(pipeImage, GameConstants.PIPE_SPAWN_X, gapBottomY, false)
+        );
     }
 
     public int getLastGapCenterY() { return lastGapCenterY; }
 }
+
