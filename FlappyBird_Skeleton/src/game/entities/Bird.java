@@ -23,24 +23,49 @@ import java.awt.image.BufferedImage;
  * Dash logic delegate hoàn toàn cho DashController.
  */
 public class Bird implements Updatable, Renderable, Collidable, Resettable {
-
-    // TODO: 3 frame sprite (down, mid, up), frameIndex, lastFlapTime
-    // TODO: physics (velocityY, x, y)
-
     private final DashController dashController;
-
+    public int x,y, width, height;
+    private BufferedImage[] image; // mảng lưu 3 frame ảnh của chim
+    private int frameIndex; //Frame ảnh hiện tại
+    private double velocityY; // vận tốc theo trục Y
+    private long lastFlapTime; // lưu mốc thời gian
+    public Bird(int x, int y, int width, int height, DashController dashController) {
+        this.x = x;
+        this.y = y;
+        this.dashController = dashController;
+        this.width = 48;
+        this.height = 24;
+        this.frameIndex = 0;
+        this.velocityY = 0;
+        this.lastFlapTime = System.currentTimeMillis();
+    }
     public Bird(AssetLoader loader, DashController dashController) {
         this.dashController = dashController;
-        // TODO: load 3 frame từ AssetPaths.BIRD_DOWN, BIRD_MID, BIRD_UP
-        // TODO: init x = BIRD_START_X, y = BIRD_START_Y, velocityY = 0
+        this.width = 48;
+        this.height = 24;
+        // cap phat mang chua 3 khung anh, goi bo tai tai nguyen chua 3 anh cua chim
+        this.image = new BufferedImage[3];
+        this.image[0] = loader.loadImage(AssetPaths.BIRD_DOWN);
+        this.image[1] = loader.loadImage(AssetPaths.BIRD_MID);
+        this.image[2] = loader.loadImage(AssetPaths.BIRD_UP);
+        // dinh vi vi tri ban dau cua chim
+        this.x = GameConstants.BIRD_START_X;
+        this.y = GameConstants.BIRD_START_Y;
+        this.frameIndex = 0;
+        this.velocityY = 0;
+        this.lastFlapTime = System.currentTimeMillis();
     }
-
     @Override
     public void update() {
-        // TODO:
-        // 1) velocityY += GRAVITY; y += velocityY
-        // 2) Animation: nếu now - lastFlapTime >= BIRD_FLAP_INTERVAL → đổi frame
-        // 3) dashController.update()
+        velocityY += GameConstants.GRAVITY; // trong luc keo chim xuong bang cach cong don vao van toc roi
+        y += (int) velocityY; // cap nhat vi tri y cua chim dua vao van toc hien tai
+        long now = System.currentTimeMillis(); // lay thoi gian hien tai
+        if (now - lastFlapTime >= GameConstants.BIRD_FLAP_INTERVAL) {
+            if (image != null && image.length > 0) {
+                frameIndex = (frameIndex + 1) % image.length;
+            }
+            lastFlapTime = now;
+        }
     }
 
     @Override
@@ -55,14 +80,16 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
 
     @Override
     public Rectangle getBounds() {
-        // TODO: trả về Rectangle bao quanh frame hiện tại
-        return new Rectangle();
+        return new Rectangle( x, y, width, height);
     }
 
     @Override
     public boolean collidesWith(Collidable other) {
-        // TODO: return getBounds().intersects(other.getBounds())
-        return false;
+
+        return this.getBounds().intersects(other.getBounds());
+    }
+    public boolean IsOutOfBounds(){
+        return y <=  GameConstants.BIRD_TOP_BOUND || y >= GameConstants.FLOOR_Y;
     }
 
     @Override
