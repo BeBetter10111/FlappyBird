@@ -39,42 +39,68 @@ public class DashController {
 
     /** Bird gọi khi ăn DashPowerUp. */
     public void activate() {
-        // TODO: set phaseIndex = 0, reset phaseTick, rainbow*, freeze*
+        phaseIndex = 0; // active
+        phaseTick = 0;
+        rainbowIndex = 0;
+        rainbowTick = 0;
+        freezeFlickerTick = 0;
+
     }
 
     public void reset() {
-        // TODO: set phaseIndex = -1, phaseTick = 0
+        phaseIndex = -1;
+        phaseTick = 0;
     }
 
     public void update() {
-        // TODO:
         // 1) Nếu không active (phaseIndex < 0) thì return
         // 2) phaseTick++
         // 3) Nếu đang freeze phase → tick freeze flicker, ngược lại → tick rainbow
         // 4) Nếu phaseTick >= phase hiện tại.getDurationTicks() → chuyển phase tiếp
         //    Nếu hết phase → set phaseIndex = -1
+        if(!isActive()) return;
+        ++phaseTick;
+        if(isFreezePhase()){
+            ++freezeFlickerTick;
+        }else{
+            ++rainbowTick;
+            if(rainbowTick >= RAINBOW_INTERVAL){
+                rainbowTick = 0;
+                rainbowIndex = (rainbowIndex + 1) % RAINBOW.length;
+            }
+        }
+        DashSpeedStrategy current = phases.get(phaseIndex);
+        if(phaseTick >= current.getDurationTicks()){
+            ++phaseIndex;
+            phaseTick = 0;
+            freezeFlickerTick = 0;
+
+            if(phaseIndex > phases.size()){
+                phaseIndex = -1; //unactive
+            }
+        }
     }
 
-    public boolean isActive()      { /* TODO */ return false; }
-    public boolean isInvincible()  { /* TODO: isActive() && phases.get(phaseIndex).isInvincible() */ return false; }
-    public boolean isFreezePhase() { /* TODO: phaseIndex == phases.size() - 1 */ return false; }
+    public boolean isActive()      { return phaseIndex >= 0; }
+    public boolean isInvincible()  {  return isActive() && phases.get(phaseIndex).isInvincible();
+    }
+    public boolean isFreezePhase() { return phaseIndex == phases.size(); }
 
     public float getSpeedMultiplier() {
-        // TODO: nếu !isActive() → return 1.0f
-        //       ngược lại → return phases.get(phaseIndex).getSpeedMultiplier(phaseTick)
-        return 1.0f;
+        if(!isActive()) return 1.0f;
+        return phases.get(phaseIndex).getSpeedMultiplier(phaseTick);
     }
 
     /** Trả về màu rainbow hiện tại, hoặc null nếu không trong phase rainbow. */
     public Color getRainbowTint() {
-        // TODO: nếu !isActive() hoặc isFreezePhase() → return null
-        //       ngược lại → return RAINBOW[rainbowIndex]
-        return null;
+        if(!isActive() || isFreezePhase()) return null;
+        return RAINBOW[rainbowIndex];
     }
 
     /** true khi freeze phase đang ở nhịp trắng (để Bird vẽ nhấp nháy). */
     public boolean isWhiteFlicker() {
         // TODO: chỉ true khi isFreezePhase() và (freezeFlickerTick / INTERVAL) % 2 == 1
-        return false;
+        if(!isFreezePhase()) return false;
+        return (freezeFlickerTick / FREEZE_FLICKER_INTERVAL) % 2 == 1;
     }
 }
