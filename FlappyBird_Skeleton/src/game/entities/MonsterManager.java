@@ -41,16 +41,35 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
         //    - add vào list, update lastSpawnTime
         // 2) Update từng monster
         // 3) Xoá monster nào !alive hoặc isOffScreen()
+        if (System.currentTimeMillis() - lastSpawnTime >= SPAWN_INTERVAL_MS) {
+            int x = 800; // spawn ngoài màn hình
+            int y = random.nextInt(400); // tuỳ chỉnh giới hạn y
+            int hp = 1;
+            monsters.add(new Monster(sprite, x, y, hp));
+            lastSpawnTime = System.currentTimeMillis();
+            
+        }
+
+        for (Monster monster : monsters) {
+            monster.update();
+        }
+
+        monsters.removeIf(monster -> !monster.isAlive() || monster.isOffScreen());      
     }
 
     @Override
     public void render(Graphics2D g) {
         // TODO: loop và render
+        for (Monster monster : monsters) {
+            monster.render(g);
+        }
     }
 
     @Override
     public void reset() {
         // TODO: clear + reset lastSpawnTime
+        monsters.clear();
+        lastSpawnTime = System.currentTimeMillis();
     }
 
     public List<Monster> getMonsters() { return monsters; }
