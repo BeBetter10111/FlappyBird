@@ -1,44 +1,63 @@
 package game.core;
 
-import javax.sound.sampled.Clip;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
+/**
+ * Strategy Pattern — 3 phase Dash, mỗi cái 1 class độc lập.
+ * Thêm phase mới = thêm 1 inner class implement DashSpeedStrategy.
+ */
+public final class DashStrategies {
 
-
-public class AssetLoader {
-
-    // TODO: khai báo 2 map cache cho image và sound
+    private DashStrategies() {}
 
     /**
-     * Load 1 ảnh từ đường dẫn (đã có sẵn trong AssetPaths).
-     * Nếu đã cache → trả về luôn, chưa thì đọc file → cache → trả về.
+     * Phase 1 — RUSH: lướt nhanh x4 trong 90 tick (~0.75s).
      */
-    public BufferedImage loadImage(String path) {
-        return null;
+    public static class RushStrategy implements DashSpeedStrategy {
+        private static final float SPEED = 4.0f;
+        private static final int   TICKS = 90;
+
+        @Override
+        public float getSpeedMultiplier(int tick) {
+            // TODO: trả về SPEED (constant trong suốt phase này)
+            return SPEED;
+        }
+
+        @Override public int     getDurationTicks() { return TICKS; }
+        @Override public boolean isInvincible()     { return true; }
     }
 
     /**
-     * Load ảnh rồi scale lên `scale` lần (giữ pixel art không bị mờ).
-     * Dùng RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR.
+     * Phase 2 — SLOW: speed lerp từ 4.0 về 1.0 trong 60 tick (~0.5s).
      */
-    public BufferedImage loadScaledImage(String path, int scale) {
-        // TODO: implement
-        return null;
+    public static class SlowStrategy implements DashSpeedStrategy {
+        private static final float FROM  = 4.0f;
+        private static final float TO    = 1.0f;
+        private static final int   TICKS = 60;
+
+        @Override
+        public float getSpeedMultiplier(int tick) {
+            // TODO: tính t = tick / TICKS, return FROM + t * (TO - FROM)
+            //       nhớ clamp t <= 1.0
+            float t = Math.min(1.0f, (float) tick / TICKS);
+            return FROM + t * (TO - FROM);        }
+
+        @Override public int     getDurationTicks() { return TICKS; }
+        @Override public boolean isInvincible()     { return true; }
     }
 
     /**
-     * Load file WAV và trả về Clip đã open sẵn.
+     * Phase 3 — FREEZE: slowmo gần đứng yên 180 tick (~1.5s) — cảnh báo sắp hết.
      */
-    public Clip loadSound(String path) {
-        // TODO: implement
-        return null;
-    }
+    public static class FreezeStrategy implements DashSpeedStrategy {
+        private static final float SPEED = 0.08f;
+        private static final int   TICKS = 180;
 
-    /**
-     * Load file TTF và trả về Font với size yêu cầu.
-     */
-    public Font loadFont(String path, float size) {
-        // TODO: implement
-        return null;
+        @Override
+        public float getSpeedMultiplier(int tick) {
+            // TODO: return SPEED
+            return SPEED;
+        }
+
+        @Override public int     getDurationTicks() { return TICKS; }
+        @Override public boolean isInvincible()     { return true; }
     }
 }
