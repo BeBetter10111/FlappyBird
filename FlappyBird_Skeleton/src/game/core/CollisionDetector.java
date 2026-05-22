@@ -15,7 +15,6 @@ public class CollisionDetector {
      * @return true nếu bird ra ngoài màn hình HOẶC va chạm 1 pipe.
      */
     public boolean hasCollision(Bird bird, List<Pipe> pipes) {
-        // TODO:
         // 1) Nếu bird.isOutOfBounds() → return true
         if (bird.isOutOfBounds()) {
             return true;

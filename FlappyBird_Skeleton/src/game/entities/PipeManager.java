@@ -33,24 +33,32 @@ public class PipeManager implements Updatable, Renderable, Resettable {
 
     @Override
     public void update() {
-        // TODO:
-        // 1) Nếu now - lastSpawnTime >= SPAWN_INTERVAL_MS:
-        //    - Tạo cặp pipe mới qua factory, add vào list
-        //    - Báo cho powerUpManager (nếu != null):
-        //      powerUpManager.onPipePairSpawned(PIPE_SPAWN_X, factory.getLastGapCenterY())
-        //    - Update lastSpawnTime
-        // 2) Update từng pipe với speedMultiplier
-        // 3) Xoá pipe nào isOffScreen() khỏi list
+        long now = System.currentTimeMillis();
+        if (now - lastSpawnTime > SPAWN_INTERVAL_MS) {
+            List<Pipe> pair = factory.createPipePair();
+            pipes.addAll(pair);
+            if (powerUpManager != null) {
+                powerUpManager.onPipePairSpawned(
+                        GameConstants.PIPE_SPAWN_X, factory.getLastGapCenterY()
+                );
+            }
+            lastSpawnTime = now;
+        }
+        pipes.forEach(p -> p.update(speedMultiplier));
+        pipes.removeIf(Pipe::isOffScreen);
     }
 
     @Override
     public void render(Graphics2D g) {
-        // TODO: loop và gọi pipe.render(g)
+        pipes.forEach(p -> p.render(g));
     }
 
     @Override
     public void reset() {
-        // TODO: clear list, reset lastSpawnTime, speedMultiplier = 1.0f
+
+        pipes.clear();
+        lastSpawnTime = System.currentTimeMillis();
+        speedMultiplier = 1.0f;
     }
 
     public List<Pipe> getPipes() { return pipes; }

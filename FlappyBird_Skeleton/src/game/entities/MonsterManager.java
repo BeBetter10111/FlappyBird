@@ -16,7 +16,6 @@ import java.util.Random;
  * - Spawn theo thời gian (hoặc theo điểm)
  * - Xoá monster ra ngoài màn hình HOẶC đã chết
  *
- * TODO: tự quyết định cơ chế spawn.
  */
 public class MonsterManager implements Updatable, Renderable, Resettable {
 
@@ -28,19 +27,13 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
     private static final long SPAWN_INTERVAL_MS = 3000; // tuỳ chỉnh
 
     public MonsterManager(AssetLoader loader) {
-        // TODO: load sprite monster (thêm vào AssetPaths nếu chưa có)
+
         this.sprite = null;
         this.lastSpawnTime = System.currentTimeMillis();
     }
 
     @Override
     public void update() {
-        // TODO:
-        // 1) Nếu now - lastSpawnTime >= SPAWN_INTERVAL_MS:
-        //    - Tạo monster mới (x = spawn ngoài màn hình bên phải, y random)
-        //    - add vào list, update lastSpawnTime
-        // 2) Update từng monster
-        // 3) Xoá monster nào !alive hoặc isOffScreen()
         if (System.currentTimeMillis() - lastSpawnTime >= SPAWN_INTERVAL_MS) {
             int x = 800; // spawn ngoài màn hình
             int y = random.nextInt(400); // tuỳ chỉnh giới hạn y
@@ -59,7 +52,6 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
 
     @Override
     public void render(Graphics2D g) {
-        // TODO: loop và render
         for (Monster monster : monsters) {
             monster.render(g);
         }
@@ -67,7 +59,7 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
 
     @Override
     public void reset() {
-        // TODO: clear + reset lastSpawnTime
+
         monsters.clear();
         lastSpawnTime = System.currentTimeMillis();
     }

@@ -17,7 +17,7 @@ public final class DashStrategies {
 
         @Override
         public float getSpeedMultiplier(int tick) {
-            // TODO: trả về SPEED (constant trong suốt phase này)
+
             return SPEED;
         }
 
@@ -35,8 +35,7 @@ public final class DashStrategies {
 
         @Override
         public float getSpeedMultiplier(int tick) {
-            // TODO: tính t = tick / TICKS, return FROM + t * (TO - FROM)
-            //       nhớ clamp t <= 1.0
+
             float t = Math.min(1.0f, (float) tick / TICKS);
             return FROM + t * (TO - FROM);        }
 
@@ -53,7 +52,7 @@ public final class DashStrategies {
 
         @Override
         public float getSpeedMultiplier(int tick) {
-            // TODO: return SPEED
+
             return SPEED;
         }
 
