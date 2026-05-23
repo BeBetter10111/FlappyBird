@@ -8,6 +8,8 @@ import game.entities.PipeManager;
 import game.entities.PowerUpManager;
 import game.rendering.BackgroundRenderer;
 import game.rendering.HudRenderer;
+import game.entities.MonsterManager;
+import game.entities.BulletManager;
 
 
 /**
@@ -46,10 +48,10 @@ public class GameLoopBuilder {
     public GameLoopBuilder collisionDetector(CollisionDetector v) { this.collisionDetector = v; return this; }
     public GameLoopBuilder backgroundRenderer(BackgroundRenderer v) { this.backgroundRenderer = v; return this; }
     public GameLoopBuilder hudRenderer(HudRenderer v)       { this.hudRenderer = v; return this; }
-    public GameLoopBuilder monsterManager(MonsterManager v) { this.monsterManager = v; return this; }       
+    public GameLoopBuilder monsterManager(MonsterManager v) { this.monsterManager = v; return this; }      
+    public GameLoopBuilder bulletManager(BulletManager v)   { this.bulletManager = v; return this; }  
 
     public GameLoop build() {
-        // TODO: nếu field nào null thì gán default
         if (assetLoader == null) assetLoader = new AssetLoader();
         if (soundPlayer == null) soundPlayer = new SoundPlayer(assetLoader);
         if (dashController == null) dashController = new DashController();
@@ -68,8 +70,17 @@ public class GameLoopBuilder {
         if (soundPlayer == null) soundPlayer = new SoundPlayer(assetLoader);
         if (dashController == null) dashController = new DashController();
         if (bird == null) bird = new Bird(assetLoader, dashController);
-        //  ... (tương tự cho các dependency còn lại)
-
+        if (pipeFactory == null) pipeFactory = new PipeFactory(assetLoader);
+        if (pipeManager == null) pipeManager = new PipeManager(pipeFactory);
+        if (powerUpManager == null) powerUpManager = new PowerUpManager(assetLoader);
+        if (floor == null) floor = new Floor(assetLoader);
+        if (scoreManager == null) scoreManager = new ScoreManager();
+        if (collisionDetector == null) collisionDetector = new CollisionDetector();
+        if (backgroundRenderer == null) backgroundRenderer = new BackgroundRenderer(assetLoader);
+        if (hudRenderer == null) hudRenderer = new HudRenderer(assetLoader);
+        if (monsterManager == null) monsterManager = new MonsterManager(assetLoader);
+        if (bulletManager == null) bulletManager = new BulletManager(assetLoader);
+        
 
         return new GameLoop(soundPlayer, bird, pipeManager,
             powerUpManager, floor, scoreManager, collisionDetector,

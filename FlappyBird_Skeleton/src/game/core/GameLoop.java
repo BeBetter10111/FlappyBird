@@ -167,7 +167,9 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
          bulletManager.update();
          bulletManager.checkCollisionWith(monsterManager.getMonsters());
 
-         if (collisionDetector.hasCollision(bird, monsterManager.getMonsters())) {
+         // Check collision with monsters after updating bullets, so that if a bullet kills a monster, it won't cause game over in the same frame.
+         //fixed: thêm collision vs monster, tương tự pipe. Nếu bird có power-up invincibility thì ignore, nếu bird out of bounds thì cũng game over.
+         if (collisionDetector.checkCollision(bird, monsterManager.getMonsters())) {
              if (!bird.isInvincible()) {
                  gameState = GameState.GAME_OVER;
                  soundPlayer.playHit();
