@@ -14,6 +14,11 @@ public final class AssetPaths {
     public static final String DASH_ICON        = "assets/Dash.png";
     public static final String MONSTER         = "assets/monster.png";
     public static final String BULLET          = "assets/bullet.png";
+    public static final String PINK_BIRD    = "assets/PinkBird.png";
+    public static final String BLUE_BIRD    = "assets/BlueBird.png";
+    public static final String ORANGE_BIRD    = "assets/OrangeBird.png";
+    public static final String RAINBOW_BIRD    = "assets/Rainbow.png";
+    public static final String RAINBOW_MONSTER    = "assets/RainbowMonster.png";
 
     public static final String SOUND_FLAP   = "assets/sfx_wing.wav";
     public static final String SOUND_HIT    = "assets/sfx_hit.wav";
