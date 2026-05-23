@@ -1,8 +1,5 @@
 package game.utils;
 
-/**
- * Đường dẫn assets — gom 1 chỗ để dễ đổi.
- */
 public final class AssetPaths {
     public static final String FONT             = "assets/04B_19.TTF";
     public static final String BACKGROUND_DAY   = "assets/background-day.png";
@@ -15,9 +12,8 @@ public final class AssetPaths {
     public static final String MESSAGE          = "assets/message.png";
     public static final String GAME_OVER        = "assets/gameover.png";
     public static final String DASH_ICON        = "assets/Dash.png";
-    // TODO: thêm asset cho Monster, Bullet nếu cần
-    // public static final String MONSTER         = "assets/monster.png";
-    // public static final String BULLET          = "assets/bullet.png";
+    public static final String MONSTER         = "assets/monster.png";
+    public static final String BULLET          = "assets/bullet.png";
 
     public static final String SOUND_FLAP   = "assets/sfx_wing.wav";
     public static final String SOUND_HIT    = "assets/sfx_hit.wav";

@@ -51,7 +51,6 @@ public class Bullet implements Updatable, Renderable, Collidable {
 
     @Override
     public Rectangle getBounds() {
-        // TODO
         return new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
     }
 
@@ -63,7 +62,6 @@ public class Bullet implements Updatable, Renderable, Collidable {
     public void deactivate() { active = false; }
     public boolean isActive() { return active; }
     public boolean isOffScreen() {
-        // TODO: x > SCREEN_WIDTH
         if (x > 800) {
             return true;
         }

@@ -23,19 +23,16 @@ public class BulletManager implements Updatable, Renderable, Resettable {
 
     public BulletManager(AssetLoader loader) {
         // TODO: load sprite bullet (thêm vào AssetPaths)
-        this.sprite = null;
+        this.sprite = loader.loadImage(AssetPaths.BULLET);
     }
 
     /** Bird hoặc GameLoop gọi để bắn 1 viên đạn từ vị trí (x, y). */
     public void fire(int x, int y) {
-        // TODO: bullets.add(new Bullet(sprite, x, y));
+        bullets.add(new Bullet(sprite, x, y));
     }
 
     @Override
     public void update() {
-        // TODO:
-        // 1) Update từng bullet
-        // 2) Xoá bullet nào !isActive() hoặc isOffScreen()
         for (Bullet bullet : bullets) {
             bullet.update();
         }
@@ -44,12 +41,6 @@ public class BulletManager implements Updatable, Renderable, Resettable {
 
     /** Check collision với danh sách monster, gây damage và deactivate bullet. */
     public void checkCollisionWith(List<Monster> monsters) {
-        // TODO:
-        // Loop bullets — với mỗi bullet active:
-        //   Loop monsters — nếu alive và collidesWith bullet:
-        //     monster.takeDamage(1)
-        //     bullet.deactivate()
-        //     break (bullet chỉ trúng 1 monster)
         for (Bullet bullet : bullets) {
             if (bullet.isActive()) {
                 for (Monster monster : monsters) {
@@ -65,7 +56,6 @@ public class BulletManager implements Updatable, Renderable, Resettable {
 
     @Override
     public void render(Graphics2D g) {
-        // TODO
         for (Bullet bullet : bullets) {
             bullet.render(g);
         }
@@ -73,7 +63,6 @@ public class BulletManager implements Updatable, Renderable, Resettable {
 
     @Override
     public void reset() {
-        // TODO: clear list
         bullets.clear();
     }
 }
