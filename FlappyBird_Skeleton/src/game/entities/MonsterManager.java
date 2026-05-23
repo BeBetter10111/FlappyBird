@@ -4,6 +4,7 @@ import game.core.AssetLoader;
 import game.core.Resettable;
 import game.core.Updatable;
 import game.rendering.Renderable;
+import game.utils.AssetPaths;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

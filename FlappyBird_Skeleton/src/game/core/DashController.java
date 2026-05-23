@@ -69,13 +69,13 @@ public class DashController {
                 rainbowIndex = (rainbowIndex + 1) % RAINBOW.length;
             }
         }
-        DashSpeedStrategy current = phases.get(phaseIndex);
+        DashSpeedStrategy current = phases.get(phaseIndex); // lấy ra số index biểu trưng cho giai đoạn hiện tại
         if(phaseTick >= current.getDurationTicks()){
             ++phaseIndex;
             phaseTick = 0;
             freezeFlickerTick = 0;
 
-            if(phaseIndex > phases.size()){
+            if(phaseIndex >= phases.size()){
                 phaseIndex = -1; //unactive
             }
         }
@@ -84,7 +84,7 @@ public class DashController {
     public boolean isActive()      { return phaseIndex >= 0; }
     public boolean isInvincible()  {  return isActive() && phases.get(phaseIndex).isInvincible();
     }
-    public boolean isFreezePhase() { return phaseIndex == phases.size(); }
+    public boolean isFreezePhase() { return phaseIndex == phases.size() - 1; }
 
     public float getSpeedMultiplier() {
         if(!isActive()) return 1.0f;

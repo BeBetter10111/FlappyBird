@@ -17,7 +17,6 @@ public final class DashStrategies {
 
         @Override
         public float getSpeedMultiplier(int tick) {
-
             return SPEED;
         }
 

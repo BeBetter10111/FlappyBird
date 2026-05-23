@@ -43,6 +43,8 @@ public class DashPowerUp implements Updatable, Renderable, Collidable {
     @Override
     public void update() {
         // TODO: x -= PIPE_SPEED, rainbowTick++
+        x -= GameConstants.PIPE_SPEED;
+        ++rainbowTick;
     }
 
     @Override
@@ -52,12 +54,31 @@ public class DashPowerUp implements Updatable, Renderable, Collidable {
         // 2) Tính drawX, drawY (center icon)
         // 3) Vẽ halo rainbow (g.fillOval với màu RAINBOW[rainbowTick/4 % 7])
         // 4) Vẽ icon đè lên
+        if (collected) return;
+
+        int w = icon.getWidth();
+        int h = icon.getHeight();
+
+        int drawX = x - w / 2;
+        int drawY = y - h / 2;
+
+        // Halo rainbow phía sau
+        Color halo = RAINBOW[(rainbowTick / 4) % RAINBOW.length];
+        int haloSize = 18;
+        g.setColor(halo);
+        g.fillOval(drawX - haloSize / 2, drawY - haloSize / 2,
+                w + haloSize, h + haloSize);
+
+        // Icon đè lên halo
+        g.drawImage(icon, drawX, drawY, null);
     }
 
     @Override
     public Rectangle getBounds() {
         // TODO: rect bao quanh icon
-        return new Rectangle();
+        int w = icon.getWidth();
+        int h = icon.getHeight();
+        return new Rectangle( x - w / 2, y - h / 2, w, h);
     }
 
     @Override
@@ -67,9 +88,10 @@ public class DashPowerUp implements Updatable, Renderable, Collidable {
 
     public boolean isCollected() { return collected; }
     public void    collect()     { collected = true; }
+
     public boolean isOffScreen() {
         // TODO: x < -icon.getWidth()
-        return false;
+        return x < -icon.getWidth();
     }
     public int getX() { return x; }
 }
