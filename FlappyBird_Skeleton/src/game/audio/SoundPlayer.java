@@ -18,7 +18,6 @@ public class SoundPlayer {
     private final Clip dieSound;
 
     public SoundPlayer(AssetLoader loader) {
-        // TODO: load 5 clip qua loader.loadSound(AssetPaths.SOUND_*)
         this.flapSound   = null;
         this.hitSound    = null;
         this.pointSound  = null;
@@ -33,9 +32,9 @@ public class SoundPlayer {
     public void playDie()    { playClip(dieSound); }
 
     private void playClip(Clip clip) {
-        // TODO:
-        // - Nếu clip != null:
-        //   - setFramePosition(0)
-        //   - start()
+        if (clip != null) {
+            clip.setFramePosition(0);
+            clip.start();
+        }
     }
 }

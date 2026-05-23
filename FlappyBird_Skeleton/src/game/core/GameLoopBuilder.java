@@ -9,6 +9,7 @@ import game.entities.PowerUpManager;
 import game.rendering.BackgroundRenderer;
 import game.rendering.HudRenderer;
 
+
 /**
  * Builder Pattern — tách việc khởi tạo dependencies ra khỏi GameLoop.
  *
@@ -29,11 +30,12 @@ public class GameLoopBuilder {
     private CollisionDetector  collisionDetector;
     private BackgroundRenderer backgroundRenderer;
     private HudRenderer        hudRenderer;
+    private MonsterManager     monsterManager;
+    private BulletManager      bulletManager;
 
     // Setter chaining — optional, để test có thể inject mock
     public GameLoopBuilder assetLoader(AssetLoader v)        { this.assetLoader = v; return this; }
     public GameLoopBuilder bird(Bird v)                      { this.bird = v; return this; }
-    // TODO: thêm các setter khác tương tự nếu cần
     public GameLoopBuilder soundPlayer(SoundPlayer v)        { this.soundPlayer = v; return this; } 
     public GameLoopBuilder dashController(DashController v) { this.dashController = v; return this; }
     public GameLoopBuilder pipeFactory(PipeFactory v)       { this.pipeFactory = v; return this; }
@@ -44,7 +46,7 @@ public class GameLoopBuilder {
     public GameLoopBuilder collisionDetector(CollisionDetector v) { this.collisionDetector = v; return this; }
     public GameLoopBuilder backgroundRenderer(BackgroundRenderer v) { this.backgroundRenderer = v; return this; }
     public GameLoopBuilder hudRenderer(HudRenderer v)       { this.hudRenderer = v; return this; }
-
+    public GameLoopBuilder monsterManager(MonsterManager v) { this.monsterManager = v; return this; }       
 
     public GameLoop build() {
         // TODO: nếu field nào null thì gán default
@@ -71,6 +73,6 @@ public class GameLoopBuilder {
 
         return new GameLoop(soundPlayer, bird, pipeManager,
             powerUpManager, floor, scoreManager, collisionDetector,
-            backgroundRenderer, hudRenderer);
+            backgroundRenderer, hudRenderer, monsterManager, bulletManager);
     }
 }
