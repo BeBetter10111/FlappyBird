@@ -33,8 +33,7 @@ public class PowerUpManager implements Updatable, Renderable, Resettable {
     private Collidable               birdCollidable;
 
     public PowerUpManager(AssetLoader loader) {
-        // TODO: load icon từ AssetPaths.DASH_ICON (scale 2)
-        this.dashIcon = null;
+        this.dashIcon = loader.loadImage(AssetPaths.DASH_ICON);
     }
 
     /** GameLoop gọi để inject bird + listener (DIP). */
@@ -45,28 +44,32 @@ public class PowerUpManager implements Updatable, Renderable, Resettable {
 
     /** PipeManager gọi mỗi khi spawn cặp ống mới. */
     public void onPipePairSpawned(int spawnX, int gapCenterY) {
-        // TODO: nếu random.nextDouble() < SPAWN_CHANCE
-        //       → add new DashPowerUp(dashIcon, spawnX, gapCenterY) vào list
+        if (random.nextDouble() < SPAWN_CHANCE) {
+            powerUps.add(new DashPowerUp(dashIcon, spawnX, gapCenterY));
+        }
     }
 
     @Override
     public void update() {
-        // TODO:
-        // 1) Loop powerUps:
-        //    - pu.update()
-        //    - Nếu chưa collected và birdCollidable.collidesWith(pu):
-        //      → pu.collect()
-        //      → collisionListener.onDashCollected()
-        // 2) Xoá powerUp nào isOffScreen() hoặc isCollected() khỏi list
+        for (DashPowerUp pu : powerUps) {
+            pu.update();
+            if (!pu.isCollected() && birdCollidable.collidesWith(pu)) {
+                pu.collect();
+                collisionListener.onDashCollected();
+            }
+        }
+        powerUps.removeIf(pu -> pu.isOffScreen() || pu.isCollected());
     }
 
     @Override
     public void render(Graphics2D g) {
-        // TODO: loop và gọi pu.render(g)
+        for (DashPowerUp pu : powerUps) {
+            pu.render(g);
+        }
     }
 
     @Override
     public void reset() {
-        // TODO: clear list
+        powerUps.clear();
     }
 }
