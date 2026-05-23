@@ -9,9 +9,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
- * Đạn — di chuyển từ trái sang phải (player bắn).
- * Trúng monster → monster.takeDamage(), bullet → isHit = true → bị xoá.
- *
  * TODO: bàn:
  * - Bird tự bắn (auto-fire) hay người chơi bấm phím để bắn?
  * - Bullet đi thẳng hay có gravity?
@@ -37,13 +34,11 @@ public class Bullet implements Updatable, Renderable, Collidable {
 
     /** Logic di chuyển — tách method để dễ override sau này. */
     public void move() {
-        // TODO: x += BULLET_SPEED (thêm vào GameConstants)
         x += 5;
     }
 
     @Override
     public void render(Graphics2D g) {
-        // TODO: nếu active → vẽ sprite
         if (active) {
             g.drawImage(sprite, x, y, null);
         }

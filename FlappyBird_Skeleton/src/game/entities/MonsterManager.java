@@ -24,11 +24,11 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
     private final Random random = new Random();
     private long lastSpawnTime;
 
-    private static final long SPAWN_INTERVAL_MS = 3000; // tuỳ chỉnh
+    private static final long SPAWN_INTERVAL_MS = 3000; 
 
     public MonsterManager(AssetLoader loader) {
-
-        this.sprite = null;
+        //Fixed: load sprite monster (thêm vào AssetPaths)
+        this.sprite = loader.loadImage(AssetPaths.MONSTER);
         this.lastSpawnTime = System.currentTimeMillis();
     }
 

@@ -22,7 +22,6 @@ public class BulletManager implements Updatable, Renderable, Resettable {
     private final BufferedImage sprite;
 
     public BulletManager(AssetLoader loader) {
-        // TODO: load sprite bullet (thêm vào AssetPaths)
         this.sprite = loader.loadImage(AssetPaths.BULLET);
     }
 
