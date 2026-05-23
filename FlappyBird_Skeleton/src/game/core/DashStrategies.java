@@ -13,7 +13,7 @@ public final class DashStrategies {
      */
     public static class RushStrategy implements DashSpeedStrategy {
         private static final float SPEED = 4.0f;
-        private static final int   TICKS = 90;
+        private static final int   TICKS = 100;
 
         @Override
         public float getSpeedMultiplier(int tick) {
@@ -30,7 +30,7 @@ public final class DashStrategies {
     public static class SlowStrategy implements DashSpeedStrategy {
         private static final float FROM  = 4.0f;
         private static final float TO    = 1.0f;
-        private static final int   TICKS = 60;
+        private static final int   TICKS = 70;
 
         @Override
         public float getSpeedMultiplier(int tick) {
@@ -47,7 +47,7 @@ public final class DashStrategies {
      */
     public static class FreezeStrategy implements DashSpeedStrategy {
         private static final float SPEED = 0.08f;
-        private static final int   TICKS = 180;
+        private static final int   TICKS = 90;
 
         @Override
         public float getSpeedMultiplier(int tick) {

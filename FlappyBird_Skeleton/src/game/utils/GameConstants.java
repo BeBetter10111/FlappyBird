@@ -18,7 +18,7 @@ public final class GameConstants {
 
     public static final int   BIRD_START_X        = 100;
     public static final int   BIRD_START_Y        = 384;
-    public static final int   BIRD_TOP_BOUND      = -75;
+    public static final int   BIRD_TOP_BOUND      = -60;
 
     public static final int   PIPE_SPAWN_X        = 500;
     public static final int   PIPE_GAP            = 170;

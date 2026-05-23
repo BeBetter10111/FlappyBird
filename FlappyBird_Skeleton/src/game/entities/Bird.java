@@ -1,10 +1,6 @@
 package game.entities;
 
-import game.core.AssetLoader;
-import game.core.Collidable;
-import game.core.DashController;
-import game.core.Resettable;
-import game.core.Updatable;
+import game.core.*;
 import game.rendering.BirdRenderer;
 import game.rendering.Renderable;
 import game.utils.AssetPaths;
@@ -34,9 +30,9 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
         this.height = 24;
         // cap phat mang chua 3 khung anh, goi bo tai tai nguyen chua 3 anh cua chim
         this.image = new BufferedImage[3];
-        this.image[0] = loader.loadImage(AssetPaths.BIRD_DOWN);
-        this.image[1] = loader.loadImage(AssetPaths.BIRD_MID);
-        this.image[2] = loader.loadImage(AssetPaths.BIRD_UP);
+        this.image[0] = SpriteCleaner.removeLightBackground(loader.loadImage(AssetPaths.BIRD_DOWN));
+        this.image[1] = SpriteCleaner.removeLightBackground(loader.loadImage(AssetPaths.BIRD_MID));
+        this.image[2] = SpriteCleaner.removeLightBackground(loader.loadImage(AssetPaths.BIRD_UP));
         // dinh vi vi tri ban dau cua chim
         this.x = GameConstants.BIRD_START_X;
         this.y = GameConstants.BIRD_START_Y;
@@ -60,6 +56,7 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
             }
             lastFlapTime = now;
         }
+        dashController.update();
     }
 
     @Override
@@ -98,7 +95,7 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
     public float   getDashSpeedMultiplier() { return dashController.getSpeedMultiplier(); }
 
     public boolean isOutOfBounds(){
-        return y <= GameConstants.BIRD_TOP_BOUND;
+        return y <= GameConstants.BIRD_TOP_BOUND || y >= GameConstants.FLOOR_Y;
     }
 
     public int getX() { return x; }

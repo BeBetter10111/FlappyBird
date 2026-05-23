@@ -7,6 +7,7 @@ import game.utils.GameConstants;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,15 +18,14 @@ public class PipeManager implements Updatable, Renderable, Resettable {
 
     private final List<Pipe> pipes = new ArrayList<>();
     private final PipeFactory factory;
-    private long lastSpawnTime;
-    private static final long SPAWN_INTERVAL_MS = 1200;
-
     private PowerUpManager powerUpManager = null;   // optional listener
     private float speedMultiplier = 1.0f;           // GameLoop set khi dash
 
+    private float spawnTicker = 0;
+    private static final float SPAWN_INTERVAL_TICKS = 120;
+
     public PipeManager(PipeFactory factory) {
         this.factory = factory;
-        this.lastSpawnTime = System.currentTimeMillis();
     }
 
     public void setPowerUpManager(PowerUpManager pum) { this.powerUpManager = pum; }
@@ -33,19 +33,29 @@ public class PipeManager implements Updatable, Renderable, Resettable {
 
     @Override
     public void update() {
-        long now = System.currentTimeMillis();
-        if (now - lastSpawnTime > SPAWN_INTERVAL_MS) {
-            List<Pipe> pair = factory.createPipePair();
-            pipes.addAll(pair);
-            if (powerUpManager != null) {
+        spawnTicker += speedMultiplier;
+
+        if(spawnTicker >= SPAWN_INTERVAL_TICKS){
+            List<Pipe> pairs = factory.createPipePair();
+            pipes.addAll(pairs);
+
+            if(powerUpManager != null){
                 powerUpManager.onPipePairSpawned(
-                        GameConstants.PIPE_SPAWN_X, factory.getLastGapCenterY()
+                        GameConstants.PIPE_SPAWN_X,
+                        factory.getLastGapCenterY()
                 );
             }
-            lastSpawnTime = now;
+            spawnTicker = 0;
         }
-        pipes.forEach(p -> p.update(speedMultiplier));
-        pipes.removeIf(Pipe::isOffScreen);
+        for(Pipe pipe : pipes){
+            pipe.update(speedMultiplier);
+        }
+
+        Iterator<Pipe> it = pipes.iterator();
+        while (it.hasNext()) {
+            if (it.next().isOffScreen()) it.remove();
+        }
+
     }
 
     @Override
@@ -57,7 +67,7 @@ public class PipeManager implements Updatable, Renderable, Resettable {
     public void reset() {
 
         pipes.clear();
-        lastSpawnTime = System.currentTimeMillis();
+        spawnTicker = 0;
         speedMultiplier = 1.0f;
     }
 

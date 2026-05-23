@@ -34,7 +34,9 @@ public class Pipe implements Updatable, Renderable, Collidable {
         int h =  src.getHeight();
         BufferedImage flipped = new BufferedImage(w, h, src.getType());
         Graphics2D g2d = flipped.createGraphics();
-        g2d.drawImage(src, 0, 0, w, h, null);
+        g2d.drawImage(src, 0, 0, w, h,
+                           0, h, w, 0,
+                       null);
         g2d.dispose();
         return flipped;
     }
@@ -69,7 +71,7 @@ public class Pipe implements Updatable, Renderable, Collidable {
         if (isTop) {
             return new Rectangle(drawX, y - h, w, h);
         } else {
-            return new Rectangle();
+            return new Rectangle(drawX, y, w, h);
         }
     }
     @Override

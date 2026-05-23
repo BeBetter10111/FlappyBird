@@ -19,7 +19,7 @@ public class PipeFactory {
     private int lastGapCenterY = 0;
 
     public PipeFactory(AssetLoader loader) {
-        this.pipeImage = loader.loadImage(AssetPaths.PIPE);
+        this.pipeImage = loader.loadScaledImage(AssetPaths.PIPE, 2);
     }
 
     public List<Pipe> createPipePair() {

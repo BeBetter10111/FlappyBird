@@ -2,7 +2,6 @@ package game;
 
 import game.core.GameLoop;
 import game.core.GameLoopBuilder;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 

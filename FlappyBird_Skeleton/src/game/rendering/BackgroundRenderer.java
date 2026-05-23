@@ -1,6 +1,7 @@
 package game.rendering;
 
 import game.core.AssetLoader;
+import game.utils.AssetPaths;
 import game.utils.GameConstants;
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -29,12 +30,11 @@ public class BackgroundRenderer implements Renderable {
 
     public BackgroundRenderer(AssetLoader loader) {
         // TODO: load 2 background day và night (scale 2)
-        this.bgDay   = null;
-        this.bgNight = null;
+        this.bgDay   = loader.loadScaledImage(AssetPaths.BACKGROUND_DAY, 2);
+        this.bgNight = loader.loadScaledImage(AssetPaths.BACKGROUND_NIGHT, 2);
     }
 
     public void update() {
-        // TODO: ticker++
         // Xử lý theo phase:
         // DAY:
         //   alpha = 0; nếu ticker >= HOLD_TICKS → chuyển FADING_TO_NIGHT, ticker = 0

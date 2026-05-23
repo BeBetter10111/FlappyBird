@@ -103,6 +103,8 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         bird.reset();
         pipeManager.reset();
         powerUpManager.reset();
+        monsterManager.reset();
+        bulletManager.reset();
         scoreManager.reset();
         backgroundRenderer.reset();
         scoreSoundCountdown = SCORE_SOUND_INTERVAL;
@@ -146,6 +148,11 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         pipeManager.setSpeedMultiplier(bird.getDashSpeedMultiplier());
         pipeManager.update();
         powerUpManager.update();
+
+        monsterManager.update();
+        bulletManager.update();
+        bulletManager.checkCollisionWith(monsterManager.getMonsters());
+
         scoreManager.increment();
         if (scoreSoundCountdown > 0) {
             scoreSoundCountdown--;
@@ -153,32 +160,26 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
             soundPlayer.playPoint();
             scoreSoundCountdown = SCORE_SOUND_INTERVAL;
         }
-        if (collisionDetector.hasCollision(bird, pipeManager.getPipes())) {
-            if (!bird.isInvincible()) {
+
+        if(!bird.isInvincible()){
+            if(collisionDetector.hasCollision(bird, pipeManager.getPipes())){
                 gameState = GameState.GAME_OVER;
                 soundPlayer.playHit();
-            } else if (bird.isOutOfBounds()) {
-                gameState = GameState.GAME_OVER;
-                soundPlayer.playHit();
+                scoreManager.updateHighScore();
+                return;
             }
+            if(collisionDetector.checkCollisionWithMonsters(bird, monsterManager.getMonsters())){
+                gameState = GameState.GAME_OVER;
+                soundPlayer.playHit();
+                scoreManager.updateHighScore();
+                return;
+            }
+        } else if(bird.isOutOfBounds()){
+            gameState = GameState.GAME_OVER;
+            soundPlayer.playHit();
+            scoreManager.updateHighScore();
         }
 
-         monsterManager.update();
-         bulletManager.update();
-         bulletManager.checkCollisionWith(monsterManager.getMonsters());
-         
-
-         if (collisionDetector.checkCollisionWithMonsters(bird, monsterManager.getMonsters())) {
-             if (!bird.isInvincible()) {
-                 gameState = GameState.GAME_OVER;
-                 soundPlayer.playHit();
-             } else if (bird.isOutOfBounds()) {
-                 gameState = GameState.GAME_OVER;
-                 soundPlayer.playHit();
-             }
-        }
-
-         scoreManager.increment();
     }
 
     private void render() {
@@ -189,7 +190,9 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
 
         backgroundRenderer.render(g);
         pipeManager.render(g);
-        powerUpManager.render(g);   
+        powerUpManager.render(g);
+        monsterManager.render(g);
+        bulletManager.render(g);
         bird.render(g);
         floor.render(g);
         if (gameState == GameState.MAIN_GAME) {

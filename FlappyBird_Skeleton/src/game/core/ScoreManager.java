@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ScoreManager implements Resettable {
 
-    private static final double SCORE_INCREMENT = 0.01;
+    private static final double SCORE_INCREMENT = 0.02;
     private double score;
     private double highScore;
 
@@ -17,7 +17,7 @@ public class ScoreManager implements Resettable {
     }
 
     public void increment() {
-        score++;
+        score += SCORE_INCREMENT;
     }
 
     public void updateHighScore() {

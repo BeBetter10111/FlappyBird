@@ -2,6 +2,7 @@ package game.entities;
 
 import game.core.AssetLoader;
 import game.core.Resettable;
+import game.core.SpriteCleaner;
 import game.core.Updatable;
 import game.rendering.Renderable;
 import game.utils.AssetPaths;
@@ -29,7 +30,7 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
 
     public MonsterManager(AssetLoader loader) {
         //Fixed: load sprite monster (thêm vào AssetPaths)
-        this.sprite = loader.loadImage(AssetPaths.MONSTER);
+        this.sprite = SpriteCleaner.removeLightBackground(loader.loadScaledImage(AssetPaths.MONSTER, 2));
         this.lastSpawnTime = System.currentTimeMillis();
     }
 
