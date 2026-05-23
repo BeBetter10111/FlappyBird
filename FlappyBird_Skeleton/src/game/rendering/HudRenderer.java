@@ -28,10 +28,6 @@ public class HudRenderer {
 
     /** Vẽ điểm số ở giữa trên cùng khi đang chơi. */
     public void renderMainScore(Graphics2D g, ScoreManager scoreManager) {
-        // TODO:
-        // - set font + color trắng
-        // - text = scoreManager.getScore()
-        // - căn giữa theo SCORE_CENTER_X, vẽ tại SCORE_TOP_Y
         g.setFont(gameFont);
         g.setColor(Color.WHITE);
         String text = String.valueOf(scoreManager.getScore());
@@ -44,10 +40,6 @@ public class HudRenderer {
 
     /** Vẽ màn hình game over: overlay + score + high score. */
     public void renderGameOverScreen(Graphics2D g, ScoreManager scoreManager) {
-        // TODO:
-        // - Vẽ messageOverlay giữa màn hình
-        // - Vẽ "Score: X" ở SCORE_TOP_Y
-        // - Vẽ "High Score: Y" ở SCORE_BOTTOM_Y
         int overlayX = (GameConstants.SCREEN_WIDTH - messageOverlay.getWidth()) / 2;
         int overlayY = (GameConstants.SCREEN_HEIGHT - messageOverlay.getHeight()) / 2;
         g.drawImage(messageOverlay, overlayX, overlayY, null); 
