@@ -1,7 +1,6 @@
 package game.audio;
 
 import game.core.AssetLoader;
-import game.utils.AssetPaths;
 
 import javax.sound.sampled.Clip;
 
