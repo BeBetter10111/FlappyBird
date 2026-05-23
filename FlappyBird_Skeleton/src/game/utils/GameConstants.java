@@ -34,9 +34,6 @@ public final class GameConstants {
     public static final int   BG_CYCLE_SECONDS    = 15;
     public static final int   BG_FADE_SECONDS     = 3;
 
-    // Khang la
-    // TODO: thêm hằng số cho Monster (HP, speed, spawn interval)
-    // TODO: thêm hằng số cho Bullet (speed, cooldown)
     public static final int MONSTER_HP = 1;
     public static final int MONSTER_SPEED = 7;
     public static final int MONSTER_SPAWN_INTERVAL = 1200;

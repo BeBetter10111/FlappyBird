@@ -5,7 +5,7 @@ public final class AssetPaths {
     public static final String BACKGROUND_DAY   = "assets/background-day.png";
     public static final String BACKGROUND_NIGHT = "assets/background-night.png";
     public static final String FLOOR            = "assets/floor.png";
-    public static final String BIRD_DOWN        = "assets/yellowBird-downdflap.png";
+    public static final String BIRD_DOWN        = "assets/YellowBird-downdflap.png";
     public static final String BIRD_MID         = "assets/YellowBird-midflap.png";
     public static final String BIRD_UP          = "assets/YellowBird-upflap.png";
     public static final String PIPE             = "assets/pipe-green.png";
