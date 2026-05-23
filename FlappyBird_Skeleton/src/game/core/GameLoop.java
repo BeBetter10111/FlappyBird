@@ -5,7 +5,8 @@ import game.entities.Bird;
 import game.entities.Floor;
 import game.entities.PipeManager;
 import game.entities.PowerUpManager;
-// TODO: import MonsterManager, BulletManager khi đã code xong
+import game.entities.MonsterManager;
+import game.entities.BulletManager;
 import game.rendering.BackgroundRenderer;
 import game.rendering.HudRenderer;
 import game.utils.GameConstants;
@@ -40,7 +41,8 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
     private final CollisionDetector  collisionDetector;
     private final BackgroundRenderer backgroundRenderer;
     private final HudRenderer        hudRenderer;
-    // TODO: thêm MonsterManager, BulletManager
+    private final MonsterManager     monsterManager;
+    private final BulletManager      bulletManager;
 
     private int scoreSoundCountdown;
     private static final int SCORE_SOUND_INTERVAL = 100;
@@ -50,7 +52,8 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
              PipeManager pipeManager, PowerUpManager powerUpManager,
              Floor floor, ScoreManager scoreManager,
              CollisionDetector collisionDetector,
-             BackgroundRenderer backgroundRenderer, HudRenderer hudRenderer) {
+             BackgroundRenderer backgroundRenderer, HudRenderer hudRenderer, 
+             MonsterManager monsterManager, BulletManager bulletManager) {
 
         this.soundPlayer        = soundPlayer;
         this.bird               = bird;
@@ -61,6 +64,8 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         this.collisionDetector  = collisionDetector;
         this.backgroundRenderer = backgroundRenderer;
         this.hudRenderer        = hudRenderer;
+        this.monsterManager     = monsterManager;
+        this.bulletManager      = bulletManager;
 
         // Wire connectors
         powerUpManager.setCollisionTarget(bird, this);
@@ -78,24 +83,30 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
 
     @Override
     public void onDashCollected() {
-        // TODO: bird.activateDash() + soundPlayer.playSwoosh()
         bird.activateDash();
         soundPlayer.playSwoosh();
     }
 
     private void handleKeyPress(int keyCode) {
-        // TODO:
-        // Nếu phím SPACE:
-        //   - Đang MAIN_GAME → bird.flap() + soundPlayer.playFlap()
-        //   - Đang GAME_OVER → startNewGame()
+        if (keyCode == KeyEvent.VK_SPACE) {
+            if (gameState == GameState.MAIN_GAME) {
+                bird.flap();
+                soundPlayer.playFlap();
+            } else if (gameState == GameState.GAME_OVER) {
+                startNewGame();
+            }
+        }
 
     }
 
     private void startNewGame() {
-        // TODO: reset tất cả: bird, pipeManager, powerUpManager,
-        // scoreManager, backgroundRenderer
-        // scoreSoundCountdown = SCORE_SOUND_INTERVAL
-        // gameState = MAIN_GAME
+        bird.reset();
+        pipeManager.reset();
+        powerUpManager.reset();
+        scoreManager.reset();
+        backgroundRenderer.reset();
+        scoreSoundCountdown = SCORE_SOUND_INTERVAL;
+        gameState = GameState.MAIN_GAME;
     }
 
     public void start() {
@@ -126,16 +137,47 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
     }
 
     private void update() {
-        // TODO:
-        // 1) floor.update(), backgroundRenderer.update() — luôn chạy
-        // 2) Nếu gameState != MAIN_GAME → return
-        // 3) bird.update()
-        // 4) pipeManager.setSpeedMultiplier(bird.getDashSpeedMultiplier())
-        // 5) pipeManager.update(), powerUpManager.update()
-        // 6) scoreManager.increment(), countdown để phát sound point
-        // 7) Check collision: nếu !bird.isInvincible() & có va chạm pipe → game over
-        //    Nếu invincible nhưng out of bounds → vẫn game over
-        
+        floor.update();
+        backgroundRenderer.update();
+        if (gameState != GameState.MAIN_GAME) {
+            return;
+        }
+        bird.update();
+        pipeManager.setSpeedMultiplier(bird.getDashSpeedMultiplier());
+        pipeManager.update();
+        powerUpManager.update();
+        scoreManager.increment();
+        if (scoreSoundCountdown > 0) {
+            scoreSoundCountdown--;
+        } else {
+            soundPlayer.playPoint();
+            scoreSoundCountdown = SCORE_SOUND_INTERVAL;
+        }
+        if (collisionDetector.hasCollision(bird, pipeManager.getPipes())) {
+            if (!bird.isInvincible()) {
+                gameState = GameState.GAME_OVER;
+                soundPlayer.playHit();
+            } else if (bird.isOutOfBounds()) {
+                gameState = GameState.GAME_OVER;
+                soundPlayer.playHit();
+            }
+        }
+
+         monsterManager.update();
+         bulletManager.update();
+         bulletManager.checkCollisionWith(monsterManager.getMonsters());
+
+         if (collisionDetector.hasCollision(bird, monsterManager.getMonsters())) {
+             if (!bird.isInvincible()) {
+                 gameState = GameState.GAME_OVER;
+                 soundPlayer.playHit();
+             } else if (bird.isOutOfBounds()) {
+                 gameState = GameState.GAME_OVER;
+                 soundPlayer.playHit();
+             }
+        }
+
+         scoreManager.increment();
     }
 
     private void render() {
@@ -144,10 +186,16 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
 
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 
-        // TODO:
-        // - backgroundRenderer.render(g)
-        // - pipeManager, powerUpManager, bird, floor render
-        // - Nếu MAIN_GAME → hudRenderer.renderMainScore; ngược lại → renderGameOverScreen
+        backgroundRenderer.render(g);
+        pipeManager.render(g);
+        powerUpManager.render(g);   
+        bird.render(g);
+        floor.render(g);
+        if (gameState == GameState.MAIN_GAME) {
+            hudRenderer.renderMainScore(g, scoreManager);
+        } else {
+            hudRenderer.renderGameOverScreen(g, scoreManager);
+        }
 
         g.dispose();
         bs.show();
