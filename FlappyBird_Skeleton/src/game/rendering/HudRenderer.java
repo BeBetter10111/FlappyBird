@@ -4,7 +4,6 @@ import game.core.AssetLoader;
 import game.core.ScoreManager;
 import game.utils.AssetPaths;
 import game.utils.GameConstants;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -22,9 +21,9 @@ public class HudRenderer {
 
     public HudRenderer(AssetLoader loader) {
         // TODO: load font + messageOverlay + gameOverImage
-        this.gameFont       = null;
-        this.messageOverlay = null;
-        this.gameOverImage  = null;
+        this.gameFont       = loader.loadFont(AssetPaths.FONT, GameConstants.FONT_SIZE);
+        this.messageOverlay = loader.loadImage(AssetPaths.MESSAGE);
+        this.gameOverImage  = loader.loadImage(AssetPaths.GAME_OVER);
     }
 
     /** Vẽ điểm số ở giữa trên cùng khi đang chơi. */
@@ -33,6 +32,14 @@ public class HudRenderer {
         // - set font + color trắng
         // - text = scoreManager.getScore()
         // - căn giữa theo SCORE_CENTER_X, vẽ tại SCORE_TOP_Y
+        g.setFont(gameFont);
+        g.setColor(Color.WHITE);
+        String text = String.valueOf(scoreManager.getScore());
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int x = GameConstants.SCREEN_WIDTH / 2 - textWidth / 2;
+        int y = GameConstants.SCORE_TOP_Y;
+        g.drawString(text, x, y);
     }
 
     /** Vẽ màn hình game over: overlay + score + high score. */
@@ -41,5 +48,8 @@ public class HudRenderer {
         // - Vẽ messageOverlay giữa màn hình
         // - Vẽ "Score: X" ở SCORE_TOP_Y
         // - Vẽ "High Score: Y" ở SCORE_BOTTOM_Y
+        int overlayX = (GameConstants.SCREEN_WIDTH - messageOverlay.getWidth()) / 2;
+        int overlayY = (GameConstants.SCREEN_HEIGHT - messageOverlay.getHeight()) / 2;
+        g.drawImage(messageOverlay, overlayX, overlayY, null); 
     }
 }

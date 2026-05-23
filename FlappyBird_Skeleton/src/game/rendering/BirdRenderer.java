@@ -1,8 +1,6 @@
 package game.rendering;
 
 import game.core.DashController;
-import game.entities.Bird;
-
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;

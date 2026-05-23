@@ -1,9 +1,7 @@
 package game.rendering;
 
 import game.core.AssetLoader;
-import game.utils.AssetPaths;
 import game.utils.GameConstants;
-
 import java.awt.AlphaComposite;
 import java.awt.Composite;
 import java.awt.Graphics2D;
@@ -46,6 +44,37 @@ public class BackgroundRenderer implements Renderable {
         //   alpha = 1; nếu hết hold → FADING_TO_DAY
         // FADING_TO_DAY:
         //   alpha = 1 - ticker / FADE_TICKS; nếu xong → DAY
+        ticker++;
+            switch (phase) {
+                case DAY -> {
+                    alpha = 0f;
+                    if (ticker >= HOLD_TICKS) {
+                        phase = Phase.FADING_TO_NIGHT;
+                        ticker = 0;
+                    }
+                }
+                case FADING_TO_NIGHT -> {
+                    alpha = (float) ticker / FADE_TICKS;
+                    if (ticker >= FADE_TICKS) {
+                        phase = Phase.NIGHT;
+                        ticker = 0;
+                    }
+                }
+                case NIGHT -> {
+                    alpha = 1f;
+                    if (ticker >= HOLD_TICKS) {
+                        phase = Phase.FADING_TO_DAY;
+                        ticker = 0;
+                    }
+                }
+                case FADING_TO_DAY -> {
+                    alpha = 1f - (float) ticker / FADE_TICKS;
+                    if (ticker >= FADE_TICKS) {
+                        phase = Phase.DAY;
+                        ticker = 0;
+                    }
+                }
+            }
     }
 
     @Override
@@ -53,6 +82,13 @@ public class BackgroundRenderer implements Renderable {
         // TODO:
         // 1) Vẽ bgDay full
         // 2) Nếu alpha > 0 → overlay bgNight với AlphaComposite SRC_OVER alpha
+        g.drawImage(bgDay, 0, 0, null);
+        if (alpha > 0f) {
+            Composite originalComposite = g.getComposite();
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+            g.drawImage(bgNight, 0, 0, null);
+            g.setComposite(originalComposite);
+        }
     }
 
     public void reset() {
