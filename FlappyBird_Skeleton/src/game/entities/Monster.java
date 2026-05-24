@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
  * Quái — có HP, di chuyển từ phải sang trái như pipe.
  * Bullet trúng → takeDamage(1). HP <= 0 → chết.
  *
- * TODO: bàn với nhóm:
  * - Quái xuất hiện ngẫu nhiên hay theo điểm số?
  * - Quái di chuyển theo y (lên xuống) hay đứng yên?
  * - Quái va chạm chim → game over hay chỉ trừ shield?

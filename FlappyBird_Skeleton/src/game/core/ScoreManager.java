@@ -1,7 +1,6 @@
 package game.core;
 
 public class ScoreManager implements Resettable {
-
     private int score;
     private int highScore;
 
@@ -10,7 +9,6 @@ public class ScoreManager implements Resettable {
         this.highScore = 0;
     }
 
-    /** Cộng +1 điểm khi bird qua 1 cặp pipe. */
     public void addPoint() {
         score += 1;
     }

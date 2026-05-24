@@ -20,7 +20,6 @@ public class HudRenderer {
     private final BufferedImage gameOverImage;
 
     public HudRenderer(AssetLoader loader) {
-        // TODO: load font + messageOverlay + gameOverImage
         this.gameFont       = loader.loadFont(AssetPaths.FONT, GameConstants.FONT_SIZE);
         this.messageOverlay = loader.loadImage(AssetPaths.MESSAGE);
         this.gameOverImage  = loader.loadImage(AssetPaths.GAME_OVER);

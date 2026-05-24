@@ -30,7 +30,6 @@ public final class SpriteCleaner {
         int w = src.getWidth();
         int h = src.getHeight();
 
-        // Copy ảnh gốc sang ảnh mới (ARGB để hỗ trợ alpha)
         BufferedImage result = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = result.createGraphics();
         g.setComposite(AlphaComposite.Src);

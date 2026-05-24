@@ -8,12 +8,10 @@ public final class DashStrategies {
 
     private DashStrategies() {}
 
-    /**
-     * Phase 1 — RUSH: lướt nhanh x4 trong 90 tick (~0.75s).
-     */
+    //Phase 1 — RUSH
     public static class RushStrategy implements DashSpeedStrategy {
-        private static final float SPEED = 4.0f;
-        private static final int   TICKS = 100;
+        private static final float SPEED = 3.0f;
+        private static final int   TICKS = 90;
 
         @Override
         public float getSpeedMultiplier(int tick) {
@@ -24,13 +22,11 @@ public final class DashStrategies {
         @Override public boolean isInvincible()     { return true; }
     }
 
-    /**
-     * Phase 2 — SLOW: speed lerp từ 4.0 về 1.0 trong 60 tick (~0.5s).
-     */
+    //Phase 2 — SLOW
     public static class SlowStrategy implements DashSpeedStrategy {
-        private static final float FROM  = 4.0f;
+        private static final float FROM  = 3.0f;
         private static final float TO    = 1.0f;
-        private static final int   TICKS = 70;
+        private static final int   TICKS = 50;
 
         @Override
         public float getSpeedMultiplier(int tick) {
@@ -42,16 +38,13 @@ public final class DashStrategies {
         @Override public boolean isInvincible()     { return true; }
     }
 
-    /**
-     * Phase 3 — FREEZE: slowmo gần đứng yên 180 tick (~1.5s) — cảnh báo sắp hết.
-     */
+    //Phase 3 — FREEZE
     public static class FreezeStrategy implements DashSpeedStrategy {
-        private static final float SPEED = 0.08f;
-        private static final int   TICKS = 90;
+        private static final float SPEED = 1.0f;
+        private static final int   TICKS = 50;
 
         @Override
         public float getSpeedMultiplier(int tick) {
-
             return SPEED;
         }
 

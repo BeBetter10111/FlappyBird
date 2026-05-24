@@ -1,6 +1,7 @@
 package game.entities;
 
 import game.core.Collidable;
+import game.utils.AssetPaths;
 import game.core.Updatable;
 import game.rendering.Renderable;
 
@@ -8,13 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-/**
- * TODO: bàn:
- * - Bird tự bắn (auto-fire) hay người chơi bấm phím để bắn?
- * - Bullet đi thẳng hay có gravity?
- */
 public class Bullet implements Updatable, Renderable, Collidable {
-
     private int x;
     private int y;
     private boolean active;

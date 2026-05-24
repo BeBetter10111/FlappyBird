@@ -99,7 +99,6 @@ public class DashController {
 
     /** true khi freeze phase đang ở nhịp trắng (để Bird vẽ nhấp nháy). */
     public boolean isWhiteFlicker() {
-        // TODO: chỉ true khi isFreezePhase() và (freezeFlickerTick / INTERVAL) % 2 == 1
         if(!isFreezePhase()) return false;
         return (freezeFlickerTick / FREEZE_FLICKER_INTERVAL) % 2 == 1;
     }
