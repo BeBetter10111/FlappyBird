@@ -2,14 +2,14 @@ package game.entities;
 
 import game.core.AssetLoader;
 import game.core.Resettable;
+import game.core.SpriteCleaner;
 import game.core.Updatable;
 import game.rendering.Renderable;
-
+import game.utils.AssetPaths;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import game.utils.AssetPaths;
 
 /**
  * Quản lý danh sách Bullet.
@@ -23,7 +23,7 @@ public class BulletManager implements Updatable, Renderable, Resettable {
     private final BufferedImage sprite;
 
     public BulletManager(AssetLoader loader) {
-        this.sprite = loader.loadImage(AssetPaths.BULLET);
+        this.sprite = SpriteCleaner.removeLightBackground(loader.loadImage(AssetPaths.BULLET));
     }
 
     /** Bird hoặc GameLoop gọi để bắn 1 viên đạn từ vị trí (x, y). */

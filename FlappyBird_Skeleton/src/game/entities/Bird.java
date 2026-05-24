@@ -17,11 +17,15 @@ import java.awt.image.BufferedImage;
 public class Bird implements Updatable, Renderable, Collidable, Resettable {
     private final DashController dashController;
     private final BirdRenderer renderer;
+    private BulletManager bulletManager;
     public int x,y, width, height;
     private BufferedImage[] image; // mảng lưu 3 frame ảnh của chim
     private int frameIndex; //Frame ảnh hiện tại
     private double velocityY; // vận tốc theo trục Y
     private long lastFlapTime; // lưu mốc thời gian
+    private long lastFireTime; // lưu mốc thời gian bắn đạn tự động
+    private static final int FIRE_COOLDOWN = 500; // ms giữa các lần bắn tự động
+    private int bulletCount = 0; // số lượng bullet có sẵn
 
     public Bird(AssetLoader loader, DashController dashController) {
         this.dashController = dashController;
@@ -39,7 +43,13 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
         this.frameIndex = 0;
         this.velocityY = 0;
         this.lastFlapTime = System.currentTimeMillis();
+        this.lastFireTime = System.currentTimeMillis();
     }
+
+    public void setBulletManager(BulletManager bulletManager) {
+        this.bulletManager = bulletManager;
+    }
+
     @Override
     public void update() {
         //Mỗi tick rơi thêm GRAVITY
@@ -56,6 +66,14 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
             }
             lastFlapTime = now;
         }
+        
+        // Tự động bắn đạn nếu có bullet
+        if (bulletCount > 0 && now - lastFireTime >= FIRE_COOLDOWN && bulletManager != null) {
+            bulletManager.fire(x + width / 2, y);
+            bulletCount--;
+            lastFireTime = now;
+        }
+        
         dashController.update();
     }
 
@@ -81,11 +99,18 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
         y = GameConstants.BIRD_START_Y;
         velocityY = 0;
         frameIndex = 0;
+        bulletCount = 0;
+        lastFlapTime = System.currentTimeMillis();
+        lastFireTime = System.currentTimeMillis();
         dashController.reset();
     }
 
     public void flap() {
         velocityY = GameConstants.FLAP_STRENGTH;
+    }
+
+    public void collectBullet() {
+        bulletCount += 3; // mỗi lần nhặt được 3 viên đạn
     }
 
     public void activateDash() { dashController.activate(); }

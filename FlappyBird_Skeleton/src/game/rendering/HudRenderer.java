@@ -37,10 +37,23 @@ public class HudRenderer {
         g.drawString(text, x, y);
     }
 
-    /** Vẽ màn hình game over: overlay + score + high score. */
+    /** Vẽ màn hình game over: score + high score. */
     public void renderGameOverScreen(Graphics2D g, ScoreManager scoreManager) {
-        int overlayX = (GameConstants.SCREEN_WIDTH - messageOverlay.getWidth()) / 2;
-        int overlayY = (GameConstants.SCREEN_HEIGHT - messageOverlay.getHeight()) / 2;
-        g.drawImage(messageOverlay, overlayX, overlayY, null); 
+        // Render current score
+        g.setFont(gameFont);
+        g.setColor(Color.WHITE);
+        String scoreText = "Score: " + scoreManager.getScore();
+        FontMetrics fm = g.getFontMetrics();
+        int scoreWidth = fm.stringWidth(scoreText);
+        int scoreX = GameConstants.SCREEN_WIDTH / 2 - scoreWidth / 2;
+        int scoreY = GameConstants.SCREEN_HEIGHT / 2 - 20;
+        g.drawString(scoreText, scoreX, scoreY);
+        
+        // Render high score
+        String highScoreText = "High Score: " + scoreManager.getHighScore();
+        int highScoreWidth = fm.stringWidth(highScoreText);
+        int highScoreX = GameConstants.SCREEN_WIDTH / 2 - highScoreWidth / 2;
+        int highScoreY = scoreY + 40;
+        g.drawString(highScoreText, highScoreX, highScoreY);
     }
 }

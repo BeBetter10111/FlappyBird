@@ -2,17 +2,16 @@ package game.core;
 
 import game.audio.SoundPlayer;
 import game.entities.Bird;
-import game.entities.Floor;
-import game.entities.PipeManager;
-import game.entities.Pipe;
-import game.entities.PowerUpManager;
-import game.entities.MonsterManager;
 import game.entities.BulletManager;
+import game.entities.Floor;
+import game.entities.MonsterManager;
+import game.entities.Pipe;
+import game.entities.PipeManager;
+import game.entities.PowerUpManager;
 import game.rendering.BackgroundRenderer;
 import game.rendering.HudRenderer;
 import game.utils.GameConstants;
 import game.utils.GameState;
-
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -71,6 +70,7 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         // Wire connectors
         powerUpManager.setCollisionTarget(bird, this);
         pipeManager.setPowerUpManager(powerUpManager);
+        bird.setBulletManager(bulletManager);
 
         gameState           = GameState.GAME_OVER;
         scoreSoundCountdown = SCORE_SOUND_INTERVAL;
@@ -97,7 +97,6 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
                 startNewGame();
             }
         }
-
     }
 
     private void startNewGame() {
