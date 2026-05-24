@@ -4,6 +4,7 @@ import game.audio.SoundPlayer;
 import game.entities.Bird;
 import game.entities.Floor;
 import game.entities.PipeManager;
+import game.entities.Pipe;
 import game.entities.PowerUpManager;
 import game.entities.MonsterManager;
 import game.entities.BulletManager;
@@ -153,12 +154,12 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         bulletManager.update();
         bulletManager.checkCollisionWith(monsterManager.getMonsters());
 
-        scoreManager.increment();
-        if (scoreSoundCountdown > 0) {
-            scoreSoundCountdown--;
-        } else {
-            soundPlayer.playPoint();
-            scoreSoundCountdown = SCORE_SOUND_INTERVAL;
+        for(Pipe p : pipeManager.getPipes()){
+            if(!p.isSocred() && p.isTopPipe() && p.getX() < bird.getX()){
+                p.markScored(); // đánh dấu pipe này đã tính frame sau không tính lại
+                scoreManager.addPoint();
+                soundPlayer.playPoint();
+            }
         }
 
         if(!bird.isInvincible()){

@@ -20,6 +20,7 @@ public class Pipe implements Updatable, Renderable, Collidable {
     private final boolean isTop;
     private final BufferedImage image;
     private final BufferedImage flippedImage;
+    private boolean scored = false;
 
     public Pipe(BufferedImage image, int x, int y, boolean isTop) {
         this.image = image;
@@ -84,4 +85,7 @@ public class Pipe implements Updatable, Renderable, Collidable {
     }
 
     public int getX() { return (int) xf; }
+    public boolean isSocred(){ return scored;}
+    public void markScored(){ scored = true;}
+    public boolean isTopPipe(){ return isTop;}
 }

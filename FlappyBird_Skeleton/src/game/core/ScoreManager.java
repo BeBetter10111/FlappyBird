@@ -1,23 +1,18 @@
 package game.core;
 
-import game.entities.Bird;
-import game.entities.Pipe;
-
-import java.util.List;
-
 public class ScoreManager implements Resettable {
 
-    private static final double SCORE_INCREMENT = 0.02;
-    private double score;
-    private double highScore;
+    private int score;
+    private int highScore;
 
     public ScoreManager() {
         this.score = 0;
         this.highScore = 0;
     }
 
-    public void increment() {
-        score += SCORE_INCREMENT;
+    /** Cộng +1 điểm khi bird qua 1 cặp pipe. */
+    public void addPoint() {
+        score += 1;
     }
 
     public void updateHighScore() {
@@ -31,11 +26,6 @@ public class ScoreManager implements Resettable {
         score = 0;
     }
 
-    public int getScore() {
-        return (int) score;
-    }
-
-    public int getHighScore() {
-        return (int) highScore;
-    }
+    public int getScore()     { return score; }
+    public int getHighScore() { return highScore; }
 }

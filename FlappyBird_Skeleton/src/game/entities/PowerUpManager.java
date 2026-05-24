@@ -44,6 +44,11 @@ public class PowerUpManager implements Updatable, Renderable, Resettable {
 
     /** PipeManager gọi mỗi khi spawn cặp ống mới. */
     public void onPipePairSpawned(int spawnX, int gapCenterY) {
+        //Kiểm
+        if (birdCollidable instanceof Bird && ((Bird) birdCollidable).isDashing()) {
+            return;
+        }
+
         if (random.nextDouble() < SPAWN_CHANCE) {
             powerUps.add(new DashPowerUp(dashIcon, spawnX, gapCenterY));
         }
