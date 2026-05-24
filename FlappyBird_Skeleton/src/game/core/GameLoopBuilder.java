@@ -64,20 +64,6 @@ public class GameLoopBuilder {
         if (collisionDetector == null) collisionDetector = new CollisionDetector();
         if (backgroundRenderer == null) backgroundRenderer = new BackgroundRenderer(assetLoader);
         if (hudRenderer == null) hudRenderer = new HudRenderer(assetLoader);
-
-
-        if (assetLoader == null) assetLoader = new AssetLoader();
-        if (soundPlayer == null) soundPlayer = new SoundPlayer(assetLoader);
-        if (dashController == null) dashController = new DashController();
-        if (bird == null) bird = new Bird(assetLoader, dashController);
-        if (pipeFactory == null) pipeFactory = new PipeFactory(assetLoader);
-        if (pipeManager == null) pipeManager = new PipeManager(pipeFactory);
-        if (powerUpManager == null) powerUpManager = new PowerUpManager(assetLoader);
-        if (floor == null) floor = new Floor(assetLoader);
-        if (scoreManager == null) scoreManager = new ScoreManager();
-        if (collisionDetector == null) collisionDetector = new CollisionDetector();
-        if (backgroundRenderer == null) backgroundRenderer = new BackgroundRenderer(assetLoader);
-        if (hudRenderer == null) hudRenderer = new HudRenderer(assetLoader);
         if (monsterManager == null) monsterManager = new MonsterManager(assetLoader);
         if (bulletManager == null) bulletManager = new BulletManager(assetLoader);
         

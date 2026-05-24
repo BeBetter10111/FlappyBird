@@ -85,7 +85,7 @@ public class Pipe implements Updatable, Renderable, Collidable {
     }
 
     public int getX() { return (int) xf; }
-    public boolean isSocred(){ return scored;}
+    public boolean isScored(){ return scored;}
     public void markScored(){ scored = true;}
     public boolean isTopPipe(){ return isTop;}
 }

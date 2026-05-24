@@ -40,8 +40,8 @@ public final class DashStrategies {
 
     //Phase 3 — FREEZE
     public static class FreezeStrategy implements DashSpeedStrategy {
-        private static final float SPEED = 1.0f;
-        private static final int   TICKS = 50;
+        private static final float SPEED = 0.3f;
+        private static final int   TICKS = 90;
 
         @Override
         public float getSpeedMultiplier(int tick) {
