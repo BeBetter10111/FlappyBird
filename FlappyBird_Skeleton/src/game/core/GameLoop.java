@@ -154,7 +154,7 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         bulletManager.checkCollisionWith(monsterManager.getMonsters());
 
         for(Pipe p : pipeManager.getPipes()){
-            if(!p.isSocred() && p.isTopPipe() && p.getX() < bird.getX()){
+            if(!p.isScored() && p.isTopPipe() && p.getX() < bird.getX()){
                 p.markScored(); // đánh dấu pipe này đã tính frame sau không tính lại
                 scoreManager.addPoint();
                 soundPlayer.playPoint();
