@@ -22,7 +22,6 @@ public class DashPowerUp implements Updatable, Renderable, Collidable {
     private final BufferedImage icon;
     private int rainbowTick = 0;
 
-    // Halo cycle rainbow xung quanh icon
     private static final Color[] RAINBOW = {
         new Color(255, 0,   0,   200),
         new Color(255, 127, 0,   200),
@@ -56,14 +55,12 @@ public class DashPowerUp implements Updatable, Renderable, Collidable {
         int drawX = x - w / 2;
         int drawY = y - h / 2;
 
-        // Halo rainbow phía sau
         Color halo = RAINBOW[(rainbowTick / 4) % RAINBOW.length];
         int haloSize = 18;
         g.setColor(halo);
         g.fillOval(drawX - haloSize / 2, drawY - haloSize / 2,
                 w + haloSize, h + haloSize);
 
-        // Icon đè lên halo
         g.drawImage(icon, drawX, drawY, null);
     }
 

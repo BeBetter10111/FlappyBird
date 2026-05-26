@@ -4,10 +4,6 @@ import game.core.AssetLoader;
 
 import javax.sound.sampled.Clip;
 
-/**
- * Phát các sound effect.
- * Load 1 lần khi khởi tạo, reuse Clip cho nhiều lần phát.
- */
 public class SoundPlayer {
 
     private final Clip flapSound;

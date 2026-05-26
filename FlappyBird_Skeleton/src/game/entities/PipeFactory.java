@@ -8,10 +8,6 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Sinh 1 cặp Pipe (trên + dưới) với gap random.
- * Lưu gapCenterY để PowerUpManager biết đặt icon Dash ở đâu.
- */
 public class PipeFactory {
 
     private final BufferedImage pipeImage;

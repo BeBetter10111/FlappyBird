@@ -27,7 +27,6 @@ public class Bullet implements Updatable, Renderable, Collidable {
         move();
     }
 
-    /** Logic di chuyển — tách method để dễ override sau này. */
     public void move() {
         x += 5;
     }

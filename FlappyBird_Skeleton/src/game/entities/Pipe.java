@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  */
 public class Pipe implements Updatable, Renderable, Collidable {
 
-    private float xf;                       // float để di chuyển mượt khi speed != 1
+    private float xf;                       
     private final int y;
     private final boolean isTop;
     private final BufferedImage image;

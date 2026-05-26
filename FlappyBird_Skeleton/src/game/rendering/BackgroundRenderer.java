@@ -8,13 +8,6 @@ import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-/**
- * Vẽ nền + cross-fade ngày/đêm theo chu kỳ.
- *
- * State machine: DAY → FADING_TO_NIGHT → NIGHT → FADING_TO_DAY → DAY → ...
- *
- * update() phải được GameLoop gọi mỗi tick.
- */
 public class BackgroundRenderer implements Renderable {
 
     private final BufferedImage bgDay;
@@ -29,7 +22,7 @@ public class BackgroundRenderer implements Renderable {
 
     private Phase phase = Phase.DAY;
     private int ticker = 0;
-    private float alpha = 0f; // 0 = full day, 1 = full night
+    private float alpha = 0f; 
 
     public BackgroundRenderer(AssetLoader loader) {
         this.bgDay = loader.loadScaledImage(AssetPaths.BACKGROUND_DAY, 2);

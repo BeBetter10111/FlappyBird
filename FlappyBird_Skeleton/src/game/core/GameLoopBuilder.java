@@ -14,9 +14,6 @@ import game.entities.BulletManager;
 
 /**
  * Builder Pattern — tách việc khởi tạo dependencies ra khỏi GameLoop.
- *
- * Cách dùng:
- *     GameLoop loop = new GameLoopBuilder().build();
  */
 public class GameLoopBuilder {
 
@@ -35,7 +32,6 @@ public class GameLoopBuilder {
     private MonsterManager     monsterManager;
     private BulletManager      bulletManager;
 
-    // Setter chaining — optional, để test có thể inject mock
     public GameLoopBuilder assetLoader(AssetLoader v)        { this.assetLoader = v; return this; }
     public GameLoopBuilder bird(Bird v)                      { this.bird = v; return this; }
     public GameLoopBuilder soundPlayer(SoundPlayer v)        { this.soundPlayer = v; return this; } 

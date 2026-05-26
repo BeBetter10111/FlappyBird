@@ -17,12 +17,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.BufferedInputStream;
 
-/**
- * Load và cache PNG / WAV / TTF.
- *
- * Tip: dùng HashMap<String, BufferedImage> và HashMap<String, Clip>
- * để cache, tránh load lại file đã load.
- */
 public class AssetLoader {
 
     private final Map<String, BufferedImage> imageCache = new HashMap<>();

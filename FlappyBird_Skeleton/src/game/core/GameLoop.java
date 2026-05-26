@@ -21,9 +21,6 @@ import java.awt.image.BufferStrategy;
 
 /**
  * Vòng lặp game chính.
- * Nhận tất cả dependencies qua constructor (DIP) — không tự new gì.
- * Dùng GameLoopBuilder để tạo instance.
- *
  * Implement PowerUpCollisionListener để react khi bird ăn DashPowerUp.
  */
 public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListener {
@@ -47,7 +44,6 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
     private int scoreSoundCountdown;
     private static final int SCORE_SOUND_INTERVAL = 100;
 
-    /** Package-private — chỉ gọi qua GameLoopBuilder */
     GameLoop(SoundPlayer soundPlayer, Bird bird,
              PipeManager pipeManager, PowerUpManager powerUpManager,
              Floor floor, ScoreManager scoreManager,
@@ -67,7 +63,6 @@ public class GameLoop extends Canvas implements Runnable, PowerUpCollisionListen
         this.monsterManager     = monsterManager;
         this.bulletManager      = bulletManager;
 
-        // Wire connectors
         powerUpManager.setCollisionTarget(bird, this);
         pipeManager.setPowerUpManager(powerUpManager);
         bird.setBulletManager(bulletManager);

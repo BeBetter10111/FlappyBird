@@ -13,12 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Quản lý danh sách Monster.
- * - Spawn theo thời gian (hoặc theo điểm)
- * - Xoá monster ra ngoài màn hình HOẶC đã chết
- *
- */
 public class MonsterManager implements Updatable, Renderable, Resettable {
 
     private final List<Monster> monsters = new ArrayList<>();
@@ -29,7 +23,6 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
     private static final long SPAWN_INTERVAL_MS = 3000; 
 
     public MonsterManager(AssetLoader loader) {
-        //Fixed: load sprite monster (thêm vào AssetPaths)
         this.sprite = SpriteCleaner.removeLightBackground(loader.loadScaledImage(AssetPaths.MONSTER, 2));
         this.lastSpawnTime = System.currentTimeMillis();
     }
@@ -37,8 +30,8 @@ public class MonsterManager implements Updatable, Renderable, Resettable {
     @Override
     public void update() {
         if (System.currentTimeMillis() - lastSpawnTime >= SPAWN_INTERVAL_MS) {
-            int x = 800; // spawn ngoài màn hình
-            int y = random.nextInt(400); // tuỳ chỉnh giới hạn y
+            int x = 800; 
+            int y = random.nextInt(400); 
             int hp = 1;
             monsters.add(new Monster(sprite, x, y, hp));
             lastSpawnTime = System.currentTimeMillis();

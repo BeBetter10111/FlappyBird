@@ -23,9 +23,6 @@ public final class SpriteCleaner {
 
     private SpriteCleaner() {}
 
-    /**
-     * Xoá nền sáng/trắng quanh sprite, trả về ảnh mới với nền trong suốt.
-     */
     public static BufferedImage removeLightBackground(BufferedImage src) {
         int w = src.getWidth();
         int h = src.getHeight();
@@ -39,7 +36,6 @@ public final class SpriteCleaner {
         boolean[][] visited = new boolean[h][w];
         Queue<Point> queue = new ArrayDeque<>();
 
-        // Bắt đầu BFS từ 4 cạnh ảnh
         for (int x = 0; x < w; x++) {
             queue.add(new Point(x, 0));
             queue.add(new Point(x, h - 1));

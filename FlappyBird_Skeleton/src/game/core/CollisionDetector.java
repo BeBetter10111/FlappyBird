@@ -9,9 +9,6 @@ import java.util.List;
 
 public class CollisionDetector {
 
-    /**
-     * @return true nếu bird ra ngoài màn hình HOẶC va chạm 1 pipe.
-     */
 
     public boolean hasCollision(Bird bird, List<Pipe> pipes) {
         if (bird.isOutOfBounds()) {

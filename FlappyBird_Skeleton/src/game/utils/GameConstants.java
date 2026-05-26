@@ -1,8 +1,5 @@
 package game.utils;
 
-/**
- * Hằng số toàn game — chỉnh ở đây để tune gameplay.
- */
 public final class GameConstants {
     public static final int   SCREEN_WIDTH        = 432;
     public static final int   SCREEN_HEIGHT       = 768;
