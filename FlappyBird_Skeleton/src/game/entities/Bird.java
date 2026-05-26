@@ -9,35 +9,28 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-/**
- * Chim người chơi.
- * Chỉ lo physics + animation + render (SRP).
- * Dash logic delegate hoàn toàn cho DashController.
- */
 public class Bird implements Updatable, Renderable, Collidable, Resettable {
     private final DashController dashController;
     private final BirdRenderer renderer;
     private BulletManager bulletManager;
     public int x,y, width, height;
-    private BufferedImage[] image; // mảng lưu 3 frame ảnh của chim
-    private int frameIndex; //Frame ảnh hiện tại
-    private double velocityY; // vận tốc theo trục Y
-    private long lastFlapTime; // lưu mốc thời gian
-    private long lastFireTime; // lưu mốc thời gian bắn đạn tự động
-    private static final int FIRE_COOLDOWN = 500; // ms giữa các lần bắn tự động
-    private int bulletCount = 0; // số lượng bullet có sẵn
+    private BufferedImage[] image; 
+    private int frameIndex; 
+    private double velocityY; 
+    private long lastFlapTime; 
+    private long lastFireTime; 
+    private static final int FIRE_COOLDOWN = 500; 
+    private int bulletCount = 0; 
 
     public Bird(AssetLoader loader, DashController dashController) {
         this.dashController = dashController;
         this.renderer = new BirdRenderer(dashController);
         this.width = 48;
         this.height = 24;
-        // cap phat mang chua 3 khung anh, goi bo tai tai nguyen chua 3 anh cua chim
         this.image = new BufferedImage[3];
         this.image[0] = SpriteCleaner.removeLightBackground(loader.loadImage(AssetPaths.BIRD_DOWN));
         this.image[1] = SpriteCleaner.removeLightBackground(loader.loadImage(AssetPaths.BIRD_MID));
         this.image[2] = SpriteCleaner.removeLightBackground(loader.loadImage(AssetPaths.BIRD_UP));
-        // dinh vi vi tri ban dau cua chim
         this.x = GameConstants.BIRD_START_X;
         this.y = GameConstants.BIRD_START_Y;
         this.frameIndex = 0;
@@ -52,14 +45,9 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
 
     @Override
     public void update() {
-        //Mỗi tick rơi thêm GRAVITY
-        velocityY += GameConstants.GRAVITY; // trong luc keo chim xuong bang cach cong don vao van toc roi
-        y += (int) velocityY; // cap nhat vi tri y cua chim dua vao van toc hien tai
-        /*
-        Khi velocityY càng tăng mỗi tick thì cái vận tốc càng nhanh -> cập nhật vị trí ở cột Y theo cái vận tốc hiện tại
-        VD: velocity = 5.00 -> y += 5; ( dịch chuyển xuống 5 px)
-         */
-        long now = System.currentTimeMillis(); // lay thoi gian hien tai
+        velocityY += GameConstants.GRAVITY;
+        y += (int) velocityY; 
+        long now = System.currentTimeMillis(); 
         if (now - lastFlapTime >= GameConstants.BIRD_FLAP_INTERVAL) {
             if (image != null && image.length > 0) {
                 frameIndex = (frameIndex + 1) % image.length;
@@ -110,7 +98,7 @@ public class Bird implements Updatable, Renderable, Collidable, Resettable {
     }
 
     public void collectBullet() {
-        bulletCount += 3; // mỗi lần nhặt được 3 viên đạn
+        bulletCount += 3; 
     }
 
     public void activateDash() { dashController.activate(); }

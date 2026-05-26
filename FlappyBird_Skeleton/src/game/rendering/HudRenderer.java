@@ -10,9 +10,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-/**
- * Vẽ HUD: điểm số trong game, màn hình game over.
- */
+//Vẽ HUD: điểm số trong game, màn hình game over.
 public class HudRenderer {
 
     private final Font          gameFont;
@@ -25,7 +23,6 @@ public class HudRenderer {
         this.gameOverImage  = loader.loadImage(AssetPaths.GAME_OVER);
     }
 
-    /** Vẽ điểm số ở giữa trên cùng khi đang chơi. */
     public void renderMainScore(Graphics2D g, ScoreManager scoreManager) {
         g.setFont(gameFont);
         g.setColor(Color.WHITE);
@@ -37,7 +34,6 @@ public class HudRenderer {
         g.drawString(text, x, y);
     }
 
-    /** Vẽ màn hình game over: score + high score. */
     public void renderGameOverScreen(Graphics2D g, ScoreManager scoreManager) {
         // Render current score
         g.setFont(gameFont);

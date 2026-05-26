@@ -18,8 +18,8 @@ public class PipeManager implements Updatable, Renderable, Resettable {
 
     private final List<Pipe> pipes = new ArrayList<>();
     private final PipeFactory factory;
-    private PowerUpManager powerUpManager = null;   // optional listener
-    private float speedMultiplier = 1.0f;           // GameLoop set khi dash
+    private PowerUpManager powerUpManager = null;   
+    private float speedMultiplier = 1.0f;           
 
     private float spawnTicker = 0;
     private static final float SPAWN_INTERVAL_TICKS = 120;

@@ -31,7 +31,6 @@ public class PowerUpManager implements Updatable, Renderable, Resettable {
     private static final double DASH_SPAWN_CHANCE = 0.40;
     private static final double BULLET_SPAWN_CHANCE = 0.30;
 
-    // DIP — phụ thuộc abstraction
     private PowerUpCollisionListener collisionListener;
     private Collidable               birdCollidable;
 

@@ -8,11 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-/**
- * Phụ trách VẼ Bird — tách khỏi Bird để tuân SRP.
- * Bird chỉ giữ state (vị trí, vận tốc, frame).
- * BirdRenderer chỉ biết cách vẽ ra Graphics2D.
- */
 public class BirdRenderer {
 
     private final DashController dashController;
@@ -21,19 +16,14 @@ public class BirdRenderer {
         this.dashController = dashController;
     }
 
-    /**
-     * Vẽ bird tại vị trí (x, y) với frame và vận tốc cho trước.
-     */
     public void render(Graphics2D g, BufferedImage frame, int x, int y, double velocityY) {
         int drawX = x - frame.getWidth()  / 2;
         int drawY = y - frame.getHeight() / 2;
 
-        // Xoay sprite theo vận tốc
         double angle = Math.toRadians(-velocityY * 3);
         AffineTransform old = g.getTransform();
         g.rotate(angle, x, y);
 
-        // Chọn mode vẽ
         Color rainbowTint = dashController.getRainbowTint();
         if (rainbowTint != null) {
             renderWithTint(g, frame, drawX, drawY, rainbowTint, 0.45f);
@@ -62,7 +52,6 @@ public class BirdRenderer {
         g.setColor(tint);
         g.fillRect(drawX, drawY, frame.getWidth(), frame.getHeight());
 
-        // Layer 3: sprite lại để chi tiết hiện qua
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.55f));
         g.drawImage(frame, drawX, drawY, null);
 
